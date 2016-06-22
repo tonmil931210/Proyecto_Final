@@ -1,1 +1,37 @@
-<navbar-directive></navbar-directive>
+<div class="container">
+	<ul class="collapsible popout" data-collapsible="accordion" watch>
+	    <li ng-repeat="event in events">
+	        <div class="collapsible-header">
+	        	<div class="row">
+	        		<div class="col s6"><p class="left-align">{{event.name}}</p></div>
+	        		<div class="col s6"><p class="center-align">{{event.date}}</p></div>
+	        	</div>
+        	</div>
+	        <div class="collapsible-body">
+	        	<div ng-repeat="order in event.orders">	        		
+	        		<div class="container">
+	        			<p><b> {{order.name + ' '}} </b> ordenada el día <b>{{' ' + order.date + '. '}}</b> Estado: <b ng-style="setStyle(order.status)">{{order.status}}</b></p>	        			
+	        			<table class="responsive-table">
+					        <thead>
+					          <tr>
+					              <th data-field="id">Id</th>
+					              <th data-field="name">Nombre articulo</th>
+					              <th data-field="quantity">Cantidad</th>
+					              <th data-field="type">tipo</th>
+					          </tr>
+					        </thead>
+					        <tbody>
+					          <tr ng-repeat="item in order.items">
+					            <td>{{item.id}}</td>
+					            <td>{{item.name}}</td>
+					            <td>{{item.quantity}}</td>
+					            <td>{{item.type}}</td>
+					          </tr>					          
+					        </tbody>
+				      	</table>
+	        		</div>	        		
+	        	</div>
+	        </div>
+	    </li>
+	</ul>
+</div>
