@@ -20,6 +20,9 @@ angular.module('bodegaUninorteApp')
   					break;
   				case 'rechazada':
   					return {'color':'#b71c1c'}
+  					break;
+  				case 'entregada':
+  					return {'color':'#0d47a1'}
   					break;  				
   			}
   		};
@@ -43,7 +46,7 @@ angular.module('bodegaUninorteApp')
   	    			quantity: 5,
   	    			type:'retornable'
   	    		}],
-  	    		status: 'aprobada'
+  	    		status: 'entregada'
   	    	},{
   	    		name:'Orden #2', 
   	    		date:'01/06/2016',
@@ -58,6 +61,40 @@ angular.module('bodegaUninorteApp')
   	    			image: 'http://ftbwiki.org/images/d/db/Item_Enchanted_Golden_Apple.png',
   	    			id: 203,
   	    			quantity: 5,
+  	    			type:'retornable'
+  	    		}],
+  	    		status:'pendiente'
+  	    	},{
+  	    		name:'Orden #1',
+  	    		date:'01/06/2016', 
+  	    		items:[{
+  	    			name:'Item 7',
+  	    			quantity: 3,
+  	    			id: 204,
+  	    			image: 'http://ftbwiki.org/images/d/db/Item_Enchanted_Golden_Apple.png',
+  	    			type:'retornable'
+  	    		},{
+  	    			name:'Item 6',
+  	    			quantity: 5,
+  	    			image: 'http://ftbwiki.org/images/d/db/Item_Enchanted_Golden_Apple.png',
+  	    			id: 207,
+  	    			type:'retornable'
+  	    		}],
+  	    		status: 'rechazada'
+  	    	},{
+  	    		name:'Orden #2', 
+  	    		date:'01/06/2016',
+  	    		items:[{
+  	    			name:'Item 72',
+  	    			quantity: 3,
+  	    			id: 201,
+  	    			image: 'http://ftbwiki.org/images/d/db/Item_Enchanted_Golden_Apple.png',
+  	    			type:'retornable'
+  	    		},{
+  	    			name:'Item 16',
+  	    			quantity: 5,
+  	    			id: 201,
+  	    			image: 'http://ftbwiki.org/images/d/db/Item_Enchanted_Golden_Apple.png',
   	    			type:'retornable'
   	    		}],
   	    		status:'pendiente'
@@ -102,4 +139,47 @@ angular.module('bodegaUninorteApp')
   	    		status:'pendiente'
   	    	}]  	    		
   	    }];
+
+  	    $scope.selectedEvents = $scope.events;
+
+  	    $scope.getAllEvents = function(){  	 
+  	    	$scope.selectedEvents = [];
+			$scope.selectedEvents = $scope.events;  	    	
+  	    }
+
+  	    $scope.getPendingEvents = function(){  	    	    		
+  	    	$scope.selectedEvents = [];
+			$scope.selectedEvents = getEventByStatus('pendiente');    	    	
+  	    }
+
+  	    $scope.getRejectedEvents = function(){  	    	    		
+  	    	$scope.selectedEvents = [];
+			$scope.selectedEvents = getEventByStatus('rechazada');    	    	
+  	    }
+
+  	    $scope.getDeliveredEvents = function(){  	    	    		
+  	    	$scope.selectedEvents = [];
+			$scope.selectedEvents = getEventByStatus('entregada');    	    	
+  	    }
+
+  	    function getEventByStatus(status){
+  	    	var events = [];
+  	    	for(var event of $scope.events){  	    			    		
+  	    		var orders = [];
+  	    		for(var order of event.orders){  	    			
+  	    			if(order.status === status){
+  	    				orders.push(order);
+  	    			}
+  	    		}
+  	    		if(orders.length > 0){
+  	    			events.push({
+  	    				name: event.name,
+  	    				date: event.date,
+  	    				orders: orders
+  	    			});
+  	    		}
+  	    	}
+  	    	return events;
+  	    }
+
   });
