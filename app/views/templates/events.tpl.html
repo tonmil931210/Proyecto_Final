@@ -1,6 +1,15 @@
+<div class="container">
+	
+
+<div class="input-field">
+	<i class="material-icons prefix">search</i>
+	<input id="search" type="text" ng-model="keyword">
+	<label for="search">Buscar</label>
+</div>
+
 <div class="">
 	<ul class="collapsible popout" data-collapsible="accordion" watch>
-	    <li ng-repeat="event in selectedEvents">
+	    <li ng-repeat="event in events | filter: keyword">
 	        <div class="collapsible-header">
 	        	<div class="row">
 	        		<div class="col s6"><p class="left-align">{{event.name}}</p></div>
@@ -8,7 +17,7 @@
 	        	</div>
         	</div>
 	        <div class="collapsible-body">
-	        	<div ng-repeat="order in event.orders">	        		
+	        	<div ng-repeat="order in event.orders | filter: keyword">	        		
 	        		<div class="container">
 	        			<p><b> {{order.name + ' '}} </b> ordenada el día <b>{{' ' + order.date + '. '}}</b> Estado: <b ng-style="setStyle(order.status)">{{order.status}}</b></p>	        			
 	        			<table class="responsive-table">
@@ -34,4 +43,5 @@
 	        </div>
 	    </li>
 	</ul>
+</div>
 </div>

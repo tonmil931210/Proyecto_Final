@@ -3,8 +3,8 @@
 angular.module('bodegaUninorteApp')
 .factory('loginService',  function($rootScope,$location,sessionService, $localStorage, $cookieStore){
 	return {
-		login: function(userData,scope){							
-			var authData = {token:'13216546879'}
+		login: function(userData){							
+			var authData = {token:'13216546879'};
 			if(userData.remember_me){
 				$localStorage.auth = {
 					token: authData.token,
@@ -24,7 +24,7 @@ angular.module('bodegaUninorteApp')
 			$localStorage.auth = {
 		        token: null,
 		        selected: null
-		    }
+		    };	    
 		    $cookieStore.put('token', undefined);
 			$location.path('/login');
 		},

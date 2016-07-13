@@ -14,5 +14,5 @@ angular.module('bodegaUninorteApp')
     	};
     	$scope.logout = function(){
     		loginService.logout();
-    	}
+    	};
 	});

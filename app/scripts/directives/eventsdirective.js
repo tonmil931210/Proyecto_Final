@@ -11,6 +11,9 @@ angular.module('bodegaUninorteApp')
     return {
       restrict: 'E',
       templateUrl: 'views/templates/events.tpl.html',
-      controller: 'DashboardCtrl'      
+      controller: 'DashboardCtrl',
+      scope: {
+      	events: '='        
+      }  
     };
   });
