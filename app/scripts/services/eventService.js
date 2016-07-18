@@ -134,6 +134,9 @@ angular.module('bodegaUninorteApp')
 	    		}
 	    	}
 	    	return events;
+		},
+		new: function (event) {			
+			this.all().push(event);			
 		}
 	};
 });

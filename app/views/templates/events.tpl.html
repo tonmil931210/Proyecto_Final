@@ -6,14 +6,22 @@
 	<input id="search" type="text" ng-model="keyword">
 	<label for="search">Buscar</label>
 </div>
-
 <div class="">
 	<ul class="collapsible popout" data-collapsible="accordion" watch>
-	    <li ng-repeat="event in events | filter: keyword">
-	        <div class="collapsible-header">
+	    <li ng-repeat="event in events | filter: keyword">	    	
+	        <div class="collapsible-header">	        	
 	        	<div class="row">
-	        		<div class="col s6"><p class="left-align">{{event.name}}</p></div>
-	        		<div class="col s6"><p class="right-align">{{event.date}}</p></div>
+	        		<div class="col s6"><p class="left-align">{{event.name + " - " + event.date}}</p></div>
+	        		<div class="col s6">       
+	        			<div class="right-align vertical-aling-button">
+	        				<button class="btn waves-effect waves-light orange darken-3" ng-click="editEvent(event)">
+							    <i class="material-icons left icon">mode_edit</i>
+							</button>	        				
+							<button class="btn waves-effect waves-light red darken-4" >
+							    <i class="material-icons left icon">delete</i>
+							</button>
+	        			</div>									
+	        		</div>
 	        	</div>
         	</div>
 	        <div class="collapsible-body">

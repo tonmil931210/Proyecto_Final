@@ -12,3 +12,17 @@ div.centre
   margin-left: auto;
   margin-right: auto;
 }
+
+.icon {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    height: 50% !important;
+    transform: translate(-50%, -115%) !important;    
+    display: block !important;    
+}
+
+.vertical-aling-button
+{
+	margin-top: 18px;
+}
