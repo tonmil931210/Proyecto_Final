@@ -136,7 +136,14 @@ angular.module('bodegaUninorteApp')
 	    	return events;
 		},
 		new: function (event) {			
-			this.all().push(event);			
+			//post event
+		},
+		edit: function (event){
+			//put
+		},
+		delete: function (event){
+			//delete
 		}
+
 	};
 });

@@ -12,9 +12,19 @@ angular.module('bodegaUninorteApp')
 
       $(document).ready(function(){          
         $('.modal-trigger').leanModal();
-      });
+      });     
 
-      //Setup for datepicker     
+      function collapseExpandHeader(index){
+        if($("#collapsible-header-"+index).hasClass('active')){
+          $("#collapsible-header-"+index).removeClass(function(){
+            return "active";
+          });           
+        }else{
+          $("#collapsible-header-"+index).addClass("active"); 
+        }        
+      }      
+
+      //Setup for datepicker
 
       var currentTime = new Date();
       var event = {date:currentTime, name:'', orders:[]};
@@ -71,27 +81,53 @@ angular.module('bodegaUninorteApp')
         event.date = dateToString($scope.currentTime);        
         eventService.new(event);
         $scope.all.push(event);     
-      };
+      };      
 
+      
+      $scope.editEvent = function (event, index) {    
+        //document.getElementById('collapsible-header').click();                         
+        $scope.editEventVar = {};
+        $scope.editEventVar.name = event.name;
+        $scope.editEventVar.date = stringToDate(event.date,"dd/mm/yyyy","/");
+        $scope.editEventVar.index = index;       
+        collapseExpandHeader(index)           
+        $('#editEventModal').openModal();                         
+      }
 
-
-      $scope.editEventName = "";
-      $scope.editEventDate = "";
-
-      $scope.editEvent = function (event) {
-        var editEventVar = event;
-        $scope.editEventVar = editEventVar;
-        $scope.editEventVar.date = "";
-        $('#editEventModal').openModal(); 
-        console.log(editEventVar);
+      $scope.saveEditEvent = function (event) {
+        $scope.all[event.index].name = event.name;           
       }
 
       $scope.all = eventService.all();
-      $scope.pending = eventService.byStatus('pendiente');
-      $scope.rejected = eventService.byStatus('rechazada');
-      $scope.delivered = eventService.byStatus('entregada');
+      $scope.pending = eventService.byStatus('pendiente',undefined);
+      $scope.rejected = eventService.byStatus('rechazada',undefined);
+      $scope.delivered = eventService.byStatus('entregada',undefined); 
+
 
       function dateToString(date) {        
         return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();        
       }
+
+      function stringToDate(_date,_format,_delimiter){
+            var formatLowerCase=_format.toLowerCase();
+            var formatItems=formatLowerCase.split(_delimiter);
+            var dateItems=_date.split(_delimiter);
+            var monthIndex=formatItems.indexOf("mm");
+            var dayIndex=formatItems.indexOf("dd");
+            var yearIndex=formatItems.indexOf("yyyy");
+            var month=parseInt(dateItems[monthIndex]);
+            month-=1;
+            var formatedDate = new Date(dateItems[yearIndex],month,dateItems[dayIndex]);
+            return formatedDate;
+      }
+
+      function getEventIndex(eventName){
+        for (var i = 0; i < $scope.all.length; i++) {
+          if($scope.all[i].name === eventName){
+            return i;
+          }
+        }
+        return -1;
+      }     
+
   });

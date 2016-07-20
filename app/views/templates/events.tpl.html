@@ -8,17 +8,20 @@
 </div>
 <div class="">
 	<ul class="collapsible popout" data-collapsible="accordion" watch>
-	    <li ng-repeat="event in events | filter: keyword">	    	
-	        <div class="collapsible-header">	        	
+	    <li ng-repeat="event in events | filter: keyword">	    	    		    	
+	        <div class="collapsible-header" ng-attr-id="{{ 'collapsible-header-' + $index }}">	        	
 	        	<div class="row">
 	        		<div class="col s6"><p class="left-align">{{event.name + " - " + event.date}}</p></div>
 	        		<div class="col s6">       
 	        			<div class="right-align vertical-aling-button">
-	        				<button class="btn waves-effect waves-light orange darken-3" ng-click="editEvent(event)">
+	        				<button class="btn waves-effect waves-light orange darken-3" ng-click="editEvent(event,$index)">
 							    <i class="material-icons left icon">mode_edit</i>
 							</button>	        				
 							<button class="btn waves-effect waves-light red darken-4" >
 							    <i class="material-icons left icon">delete</i>
+							</button>
+							<button class="btn waves-effect waves-light green" >
+							    <i class="material-icons left icon">add</i>
 							</button>
 	        			</div>									
 	        		</div>
@@ -48,8 +51,57 @@
 				      	</table>
 	        		</div>	        		
 	        	</div>
+	        	</br>
 	        </div>
-	    </li>
+	    </li>	    
 	</ul>
 </div>
+</div>
+
+<!-- Modal Edit Event -->
+<div id="editEventModal" class="modal">
+    <div class="modal-content">        
+        <h4>Editar Evento</h4>
+
+        <div class="row">
+            <form class="col s12">
+              <div class="row">                
+                <div input-field>
+                    <input type="text" ng-model="editEventVar.name">
+                    <label>Nombre del evento</label>
+                </div>                                
+              </div>              
+              <div class="row">                
+                <label for="eventDate">Fecha del evento</label>
+                <input input-date
+                    type="text"
+                    name="created"
+                    id="eventDate"
+                    ng-model="editEventVar.date"
+                    container=""
+                    format="dd/mm/yyyy"
+                    months-full="{{ month }}"
+                    months-short="{{ monthShort }}"
+                    weekdays-full="{{ weekdaysFull }}"
+                    weekdays-short="{{ weekdaysShort }}"
+                    weekdays-letter="{{ weekdaysLetter }}"
+                    disable="disable"                    
+                    today="today"
+                    clear="clear"
+                    close="close"
+                    select-years="15"
+                    on-start="onStart()"
+                    on-render="onRender()"
+                    on-open="onOpen()"
+                    on-close="onClose()"
+                    on-set="onSet()"
+                    on-stop="onStop()" />
+              </div>
+            </form>
+        </div>        
+    </div>
+    <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect waves-green btn-flat" ng-click="saveEditEvent(editEventVar)">Guardar</a>
+        <a class="modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>        
+    </div>
 </div>
