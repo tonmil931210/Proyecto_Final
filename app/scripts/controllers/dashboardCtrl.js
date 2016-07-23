@@ -22,7 +22,7 @@ angular.module('bodegaUninorteApp')
         }else{
           $("#collapsible-header-"+index).addClass("active"); 
         }        
-      }      
+      }  
 
       //Setup for datepicker
 
@@ -83,26 +83,154 @@ angular.module('bodegaUninorteApp')
         $scope.all.push(event);     
       };      
 
+      $scope.editEventVar = {name:"",date:"",index:-1};      
+      $scope.editEvent = function (event, index) {
+        $("#editName").val(event.name);
+        $("#editDate").val(event.date);
+        $("#editIndex").val(index);            
+        collapseExpandHeader(index)             
+        $('#editEventModal').openModal();                  
+      }
+
+      $scope.saveEditEvent = function () {         
+        $scope.all[$("#editIndex").val()].name = $("#editName").val();
+        $scope.all[$("#editIndex").val()].date = $("#editDate").val();
+      }
       
-      $scope.editEvent = function (event, index) {    
-        //document.getElementById('collapsible-header').click();                         
-        $scope.editEventVar = {};
-        $scope.editEventVar.name = event.name;
-        $scope.editEventVar.date = stringToDate(event.date,"dd/mm/yyyy","/");
-        $scope.editEventVar.index = index;       
-        collapseExpandHeader(index)           
-        $('#editEventModal').openModal();                         
-      }
-
-      $scope.saveEditEvent = function (event) {
-        $scope.all[event.index].name = event.name;           
-      }
-
       $scope.all = eventService.all();
-      $scope.pending = eventService.byStatus('pendiente',undefined);
-      $scope.rejected = eventService.byStatus('rechazada',undefined);
-      $scope.delivered = eventService.byStatus('entregada',undefined); 
+      $scope.all.event1 = $scope.all[0].name;
+      $scope.pending = eventService.byStatus('pendiente');
+      $scope.rejected = eventService.byStatus('rechazada');
+      $scope.delivered = eventService.byStatus('entregada'); 
+      $scope.orderTypes = ["no retornable","retornable"];
+      
 
+      function editDate(eventIndex,days){
+        var date = stringToDate($scope.all[eventIndex].date,"dd/mm/yyyy","/");
+        date.setDate(date.getDate()+days);
+        return date;
+      }
+      
+
+      $scope.order = {
+        event: $scope.all[0].name, 
+        type: $scope.orderTypes[0],
+        deliveredDate: editDate(0,-3), 
+        returnDate: editDate(0,7)
+      };
+
+      $scope.items = [
+        {
+          id: 1,
+          type:"no retornable",
+          name:"item 1",
+          quantity: 100,
+          reorder: 20,
+          minStock: 10
+        },
+        {
+          id: 2,
+          type:"no retornable",
+          name:"item 2",
+          quantity: 200,
+          reorder: 20,
+          minStock: 10
+        },
+        {
+          id: 3,
+          type:"no retornable",
+          name:"item 3",
+          quantity: 400,
+          reorder: 20,
+          minStock: 10
+        },
+        {
+          id: 4,
+          type:"no retornable",
+          name:"item 4",
+          quantity: 400,
+          reorder: 20,
+          minStock: 10
+        },
+        {
+          id: 5,
+          type:"retornable",
+          name:"item 5",
+          quantity: 600,
+          reorder: 20,
+          minStock: 10
+        },
+        {
+          id: 6,
+          type:"retornable",
+          name:"item 6",
+          quantity: 100,
+          reorder: 20,
+          minStock: 10
+        },
+        {
+          id: 7,
+          type:"retornable",
+          name:"item 7",
+          quantity: 800,
+          reorder: 100,
+          minStock: 10
+        },
+        {
+          id: 8,
+          type:"retornable",
+          name:"item 8",
+          quantity: 100,
+          reorder: 20,
+          minStock: 10
+        },
+      ];
+
+      $scope.getItemsByType = function(type){
+        var items = [];
+        for (var item of $scope.items) {
+          if(item.type === type){
+            items.push(item);
+          }
+        }
+        return items;
+      }
+
+      $scope.itemSelection = [];
+
+      $scope.itemsForm = $scope.getItemsByType("no retornable");
+
+      $scope.changeItems = function(){        
+        $scope.itemsForm = $scope.getItemsByType($scope.order.type);
+        $scope.itemSelection = [];
+      }
+
+      $scope.changeEventOnOrder = function(){
+        var index = getIndexByEventName($scope.order.event);
+        $scope.order.deliveredDate = editDate(index,-3);
+        $scope.order.returnDate = editDate(index,7);
+      }
+
+      $scope.toggleSelectionItem = function (item) {        
+        var idx = $scope.isItem(item);
+        // is currently selected
+        if (idx > -1) {          
+          $scope.itemSelection.splice(idx, 1);
+        }
+        // is newly selected
+        else {          
+          $scope.itemSelection.push(item);
+        }        
+      };
+
+      $scope.isItem = function(item){
+        for (var i = 0; i < $scope.itemSelection.length; i++) {
+          if($scope.itemSelection[i].id === item.id){
+            return i
+          }          
+        }
+        return -1;
+      };
 
       function dateToString(date) {        
         return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();        
@@ -119,15 +247,15 @@ angular.module('bodegaUninorteApp')
             month-=1;
             var formatedDate = new Date(dateItems[yearIndex],month,dateItems[dayIndex]);
             return formatedDate;
-      }
+      }  
 
-      function getEventIndex(eventName){
+      function getIndexByEventName(name){
         for (var i = 0; i < $scope.all.length; i++) {
-          if($scope.all[i].name === eventName){
+          if($scope.all[i].name === name){
             return i;
           }
         }
         return -1;
-      }     
+      }
 
   });
