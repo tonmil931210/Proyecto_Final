@@ -39,6 +39,15 @@ angular
           }
         }         
       })
+      .when('/inventario', {
+        templateUrl: 'views/inventory.html',
+        controller: 'InventoryCtrl',
+        redirectTo: function(){
+          if(!loginServiceProvider.$get().islogged()){
+            return '/login';
+          }
+        }         
+      })
       .otherwise({
         redirectTo: '/login'
       });

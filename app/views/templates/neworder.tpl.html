@@ -1,0 +1,166 @@
+<div id="newOrderModal">
+    <div class="modal-content">        
+        <h4>Nuevo Pedido</h4>
+
+        <div class="row">
+            <form class="col s12">
+              <div class="row">                
+                <div input-field>
+                    <i class="material-icons prefix">perm_identity</i>
+                    <input type="text" ng-model="order.customer">
+                    <label>Nombre del cliente</label>
+                </div>                                
+              </div>              
+              <div class="row">                                
+                <label for="orderDate">Fecha del Pedido</label>
+                <input input-date
+                    disabled
+                    type="text"
+                    name="created"
+                    id="orderDate"
+                    ng-model="currentTime"
+                    container=""
+                    format="dd/mm/yyyy"
+                    months-full="{{ month }}"
+                    months-short="{{ monthShort }}"
+                    weekdays-full="{{ weekdaysFull }}"
+                    weekdays-short="{{ weekdaysShort }}"
+                    weekdays-letter="{{ weekdaysLetter }}"
+                    disable="disable"                    
+                    today="today"
+                    clear="clear"
+                    close="close"
+                    select-years="15"
+                    on-start="onStart()"
+                    on-render="onRender()"
+                    on-open="onOpen()"
+                    on-close="onClose()"
+                    on-set="onSet()"
+                    on-stop="onStop()" />
+                </div>
+                <div class="row">
+                    <div input-field>
+                        <label for="orderType" class="active">Tipo de orden:</label>
+                        <select id="orderType" class="" ng-model="order.type" material-select ng-change="changeItems()">
+                            <option ng-repeat="type in orderTypes">{{type}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row" ng-hide="order.type === 'no retornable'">
+                    <div class="col s6">
+                        <label for="orderDeliveredDate">Fecha de entrega</label>
+                        <input input-date                            
+                            type="text"
+                            name="created"
+                            id="orderDeliveredDate"
+                            ng-model="order.deliveredDate"
+                            container=""
+                            format="dd/mm/yyyy"
+                            months-full="{{ month }}"
+                            months-short="{{ monthShort }}"
+                            weekdays-full="{{ weekdaysFull }}"
+                            weekdays-short="{{ weekdaysShort }}"
+                            weekdays-letter="{{ weekdaysLetter }}"
+                            disable="disable"                    
+                            today="today"
+                            clear="clear"
+                            close="close"
+                            select-years="15"
+                            on-start="onStart()"
+                            on-render="onRender()"
+                            on-open="onOpen()"
+                            on-close="onClose()"
+                            on-set="onSet()"
+                            on-stop="onStop()" />
+                    </div>
+                    <div class="col s6">
+                        <label for="orderReturnDate">Fecha de devolución</label>
+                        <input input-date                            
+                            type="text"
+                            name="created"
+                            id="orderReturnDate"
+                            ng-model="order.returnDate"
+                            container=""
+                            format="dd/mm/yyyy"
+                            months-full="{{ month }}"
+                            months-short="{{ monthShort }}"
+                            weekdays-full="{{ weekdaysFull }}"
+                            weekdays-short="{{ weekdaysShort }}"
+                            weekdays-letter="{{ weekdaysLetter }}"
+                            disable="disable"                    
+                            today="today"
+                            clear="clear"
+                            close="close"
+                            select-years="15"
+                            on-start="onStart()"
+                            on-render="onRender()"
+                            on-open="onOpen()"
+                            on-close="onClose()"
+                            on-set="onSet()"
+                            on-stop="onStop()" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div input-field>
+                        <label for="selectEvent" class="active">Evento:</label>
+                        <select id="selectEvent" class="" ng-model="order.event" material-select ng-change="changeEventOnOrder()">
+                            <option ng-repeat="event in all">{{event.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">search</i>
+                        <input id="search" type="text" ng-model="itemKeyword"">
+                        <label for="search">Buscar</label>
+                    </div>
+                    <table class="bordered centered">
+                        <thead>
+                            <tr >
+                              <th data-field="select">Seleccionar</th>
+                              <th data-field="id">Id</th>                              
+                              <th data-field="quantity">Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>                            
+                            <tr ng-repeat="item in itemsForm | filter:itemKeyword">
+                                <td align="center"><p align="center">
+                                  <input type="checkbox" ng-attr-id="{{'item-' + $index}}" ng-checked="isItem(item) > -1 " name="selectedItems[]" ng-click="toggleSelectionItem(item)"/>
+                                  <label ng-attr-for="{{'item-'+ $index}}">{{item.name}}</label>
+                                </p></td>
+                                <td>{{item.id}}</td>                                
+                                <td>{{item.quantity}}</td>
+                            </tr>                          
+                        </tbody>
+                    </table>
+                </div>                
+                <div class="row">
+                    <table ng-show="itemSelection.length > 0" class="bordered centered">
+                        <thead>
+                            <tr>
+                              <th data-field="id">Id</th>
+                              <th data-field="name">Nombre</th>
+                              <th data-field="quantity">Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>                            
+                            <tr ng-repeat="item in itemSelection">
+                                <td>{{item.id}}</td>
+                                <td>{{item.name}}</td>
+                                <td>
+                                    <div input-field>
+                                        <input type="number" ng-init="1">                                        
+                                    </div>
+                                </td>
+                            </tr>                          
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>        
+    </div>
+    <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect waves-green btn-flat" ng-click="newEvent(event)">Crear</a>
+        <a class="modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>        
+    </div>
+</div>

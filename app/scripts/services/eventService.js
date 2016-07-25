@@ -14,13 +14,13 @@ angular.module('bodegaUninorteApp')
 		  	    			name:'Item 1',
 		  	    			image: 'http://ftbwiki.org/images/d/db/Item_Enchanted_Golden_Apple.png',
 		  	    			id: 201,
-		  	    			quantity: 3,
+		  	    			quantityByOrder: 3,
 		  	    			type:'no retornable'
 		  	    		},{
 		  	    			name:'Item 2',
 		  	    			id: 201,
 		  	    			image: 'http://ftbwiki.org/images/d/db/Item_Enchanted_Golden_Apple.png',
-		  	    			quantity: 5,
+		  	    			quantityByOrder: 5,
 		  	    			type:'no retornable'
 		  	    		}],
 		  	    		status: 'entregada'
@@ -31,13 +31,13 @@ angular.module('bodegaUninorteApp')
 		  	    			name:'Item 4',
 		  	    			image: 'http://ftbwiki.org/images/d/db/Item_Enchanted_Golden_Apple.png',
 		  	    			id: 202,
-		  	    			quantity: 3,
+		  	    			quantityByOrder: 3,
 		  	    			type:'no retornable'
 		  	    		},{
 		  	    			name:'Item 10',
 		  	    			image: 'http://ftbwiki.org/images/d/db/Item_Enchanted_Golden_Apple.png',
 		  	    			id: 203,
-		  	    			quantity: 5,
+		  	    			quantityByOrder: 5,
 		  	    			type:'no retornable'
 		  	    		}],
 		  	    		status:'pendiente'
@@ -46,13 +46,13 @@ angular.module('bodegaUninorteApp')
 		  	    		date:'01/06/2016', 
 		  	    		items:[{
 		  	    			name:'Item 7',
-		  	    			quantity: 3,
+		  	    			quantityByOrder: 3,
 		  	    			id: 204,
 		  	    			image: 'http://ftbwiki.org/images/d/db/Item_Enchanted_Golden_Apple.png',
 		  	    			type:'no retornable'
 		  	    		},{
 		  	    			name:'Item 6',
-		  	    			quantity: 5,
+		  	    			quantityByOrder: 5,
 		  	    			image: 'http://ftbwiki.org/images/d/db/Item_Enchanted_Golden_Apple.png',
 		  	    			id: 207,
 		  	    			type:'no retornable'
@@ -63,13 +63,13 @@ angular.module('bodegaUninorteApp')
 		  	    		date:'01/06/2016',
 		  	    		items:[{
 		  	    			name:'Item 72',
-		  	    			quantity: 3,
+		  	    			quantityByOrder: 3,
 		  	    			id: 201,
 		  	    			image: 'http://ftbwiki.org/images/d/db/Item_Enchanted_Golden_Apple.png',
 		  	    			type:'no retornable'
 		  	    		},{
 		  	    			name:'Item 16',
-		  	    			quantity: 5,
+		  	    			quantityByOrder: 5,
 		  	    			id: 201,
 		  	    			image: 'http://ftbwiki.org/images/d/db/Item_Enchanted_Golden_Apple.png',
 		  	    			type:'no retornable'
@@ -84,13 +84,13 @@ angular.module('bodegaUninorteApp')
 			  	    		date:'01/05/2016', 
 			  	    		items:[{
 			  	    			name:'Item 7',
-			  	    			quantity: 3,
+			  	    			quantityByOrder: 3,
 			  	    			id: 204,
 			  	    			image: 'http://ftbwiki.org/images/d/db/Item_Enchanted_Golden_Apple.png',
 			  	    			type:'no retornable'
 			  	    		},{
 			  	    			name:'Item 6',
-			  	    			quantity: 5,
+			  	    			quantityByOrder: 5,
 			  	    			image: 'http://ftbwiki.org/images/d/db/Item_Enchanted_Golden_Apple.png',
 			  	    			id: 207,
 			  	    			type:'no retornable'
@@ -101,13 +101,13 @@ angular.module('bodegaUninorteApp')
 			  	    		date:'01/06/2016',
 			  	    		items:[{
 			  	    			name:'Item 72',
-			  	    			quantity: 3,
+			  	    			quantityByOrder: 3,
 			  	    			id: 201,
 			  	    			image: 'http://ftbwiki.org/images/d/db/Item_Enchanted_Golden_Apple.png',
 			  	    			type:'no retornable'
 			  	    		},{
 			  	    			name:'Item 16',
-			  	    			quantity: 5,
+			  	    			quantityByOrder: 5,
 			  	    			id: 201,
 			  	    			image: 'http://ftbwiki.org/images/d/db/Item_Enchanted_Golden_Apple.png',
 			  	    			type:'no retornable'

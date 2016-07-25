@@ -17,10 +17,10 @@
 	        				<button class="btn waves-effect waves-light orange darken-3" ng-click="editEvent(event,$index)">
 							    <i class="material-icons left icon">mode_edit</i>
 							</button>	        				
-							<button class="btn waves-effect waves-light red darken-4" >
+							<button ng-hide="true" class="btn waves-effect waves-light red darken-4" >
 							    <i class="material-icons left icon">delete</i>
 							</button>
-							<button class="btn waves-effect waves-light green" >
+							<button ng-hide="true" class="btn waves-effect waves-light green" >
 							    <i class="material-icons left icon">add</i>
 							</button>
 	        			</div>									
@@ -29,8 +29,39 @@
         	</div>
 	        <div class="collapsible-body">
 	        	<div ng-repeat="order in event.orders | filter: keyword">	        		
-	        		<div class="container">
-	        			<p><b> {{order.name + ' '}} </b> ordenada el día <b>{{' ' + order.date + '. '}}</b> Estado: <b ng-style="setStyle(order.status)">{{order.status}}</b></p>	        			
+	        		<div class="container">	        		
+	        			<div class="row">	        				
+	        				<div class="col 12">
+	        					<p><b> {{order.name + ' '}} </b> ordenada el día <b>{{' ' + order.date + '. '}}</b> Estado: <b ng-style="setStyle(order.status)">{{order.status}}</b></p>			
+	        				</div>
+        				</div>
+        				<div class="row" ng-show="order.status === 'aprobado'">
+        					<button style="display: block; width: 100%;" class="btn waves-effect waves-light blue darken-3 button-collapsable left" ng-click="deliverOrder(order, event)">
+        						Enregar
+						    	<i class="material-icons right">done_all</i>
+							</button>
+        				</div>
+        				<div class="row" ng-show="order.status === 'pendiente'">
+        					<div class="col s4">
+	        					<button style="display: block; width: 100%;" class="btn waves-effect waves-light green darken-3 button-collapsable left" ng-click="approveOrder(order, event)">
+	        						Aprobar
+							    	<i class="material-icons right">done</i>
+								</button>
+							</div>
+							<div class="col s4">
+								<button style="display: block; width: 100%;" class="btn waves-effect waves-light orange darken-3 button-collapsable left" ng-click="editOrder(order, event)">
+	        						Editar
+							    	<i class="material-icons right">mode_edit</i>
+								</button>
+							</div>
+							<div class="col s4">
+								<button style="display: block; width: 100%;" class="btn waves-effect waves-light red darken-4 button-collapsable left" ng-click="rejectedOrder(order, event)">
+	        						Rechazar
+							    	<i class="material-icons right">clear</i>
+								</button>
+							</div>
+        				</div>	        				        						        			        			
+
 	        			<table class="responsive-table">
 					        <thead>
 					          <tr>
@@ -44,7 +75,7 @@
 					          <tr ng-repeat="item in order.items">
 					            <td>{{item.id}}</td>
 					            <td>{{item.name}}</td>
-					            <td>{{item.quantity}}</td>
+					            <td>{{item.quantityByOrder}}</td>
 					            <td>{{item.type}}</td>
 					          </tr>					          
 					        </tbody>

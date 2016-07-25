@@ -1,0 +1,48 @@
+<div class="container">
+
+  <div class="input-field">
+    <i class="material-icons prefix">search</i>
+    <input id="search" type="text" ng-model="itemKeyword">
+    <label for="search">Buscar</label>
+  </div>
+
+  <table class="bordered centered esponsive-table">
+    <thead>
+      <tr>
+          <th data-field="id">Id</th>
+          <th data-field="name">Nombre</th>
+          <th data-field="price">Precio</th>
+          <th data-field="quantity">Cantidad</th>
+          <th data-field="reOrder">Reorder</th>
+          <th data-field="minStock">Stock Minimo</th>
+          <th data-field="type">tipo</th>
+          <th data-field="operations">Operaciones</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr ng-repeat="item in items | filter:searchItem(itemKeyword)">
+        <td>{{item.id}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.price | currency}}</td>
+        <td>{{item.quantity}}</td>
+        <td>{{item.reorder}}  
+          <i ng-show="item.quantity < item.reorder && item.quantity >= item.minStock" class="material-icons icon-table">av_timer</i>
+        </td>
+        <td>{{item.minStock}}
+          <i ng-show="item.quantity < item.minStock" class="material-icons icon-table">new_releases</i>
+        </td>
+        <td>{{item.type}}</td>
+        <td>
+          <button class="btn waves-effect waves-light orange darken-3" ng-click="editItem(item)">
+            <i class="material-icons left icon">mode_edit</i>
+          </button>                 
+          <button class="btn waves-effect waves-light red darken-4" ng-click="deleteItem(item)">
+            <i class="material-icons left icon">delete</i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>  
+</div>
+

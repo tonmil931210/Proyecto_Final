@@ -26,3 +26,11 @@ div.centre
 {
 	margin-top: 18px;
 }
+
+.icon-table{  
+  transform: translate(10%, 20%) !important;      
+}
+
+.button-collapsable{  
+  transform: translate(0%, 50%) !important;      
+}

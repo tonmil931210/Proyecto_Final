@@ -1,0 +1,150 @@
+<div class="row">
+    <div class="col s12">
+        <ul tabs reload="allTabContentLoaded">
+            <li class="tab col s4"><a class="active" href="#allTab">Todos</a></li>
+            <li class="tab col s4"><a href="#reorderTab">Por Re-Ordenar</a></li>
+            <li class="tab col s4"><a href="#minStockTab">Stock Minimo Pasado</a></li>
+            
+        </ul>
+    </div>
+    <div id="allTab" class="col s12">
+    <items-directive items="all"></items-directive>
+    </div>
+    <div id="reorderTab" class="col s12">
+    <items-directive items="itemsForReoder"></items-directive>
+    </div>
+    <div id="minStockTab" class="col s12">
+    <items-directive items="itemsMinStock"></items-directive>
+    </div>        
+</div>
+
+<div class="fixed-action-btn click-to-toggle">
+  <a class="btn-floating btn-large red">
+    <i class="material-icons">add</i>
+  </a>
+  <ul>    
+    <li>
+      <a 
+        tooltipped data-position="left" 
+        data-delay="50" 
+        data-tooltip="Nuevo Articulo" 
+        class="btn-floating red modal-trigger" 
+        href="#newItemModal">
+        <i class="material-icons">note_add</i>
+       </a>
+       </li>    
+  </ul>
+</div>
+
+<!-- Modal New Item -->
+<div id="newItemModal" class="modal">
+    <div class="modal-content">        
+        <h4>Nuevo Articulo</h4>        
+          <form class="col s12">
+            <div class="row">                
+              <div input-field class="col s6">
+                  <input type="text" ng-model="newItem.name">
+                  <label>Nombre del articulo</label>
+              </div>  
+              <div input-field class="col s6">
+                    <label for="selectType" class="active">Tipo:</label>
+                    <select id="selectType" class="" ng-model="newItem.type" material-select>
+                        <option ng-repeat="type in itemTypes">{{type}}</option>
+                    </select>
+              </div>                                                                     
+            </div>            
+            <div class="row">                
+              <div input-field class="col s6">
+                  <input type="number" ng-model="newItem.price">
+                  <label>Costo del articulo</label>
+              </div> 
+              <div input-field class="col s6">
+                  <input type="number" ng-model="newItem.quantity">
+                  <label>Cantidad del articulo</label>
+              </div>                                
+            </div>
+            <div class="row">                
+              <div input-field class="col s6">
+                  <input type="number" ng-model="newItem.reorder">
+                  <label>Reorden del articulo</label>
+              </div> 
+              <div input-field class="col s6">
+                  <input type="number" ng-model="newItem.minStock">
+                  <label>Stock minimo del articulo</label>
+              </div>                                
+            </div>  
+          </form>          
+    </div>
+    <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect waves-green btn-flat" ng-click="saveItem(newItem)">Crear</a>
+        <a class="modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>        
+    </div>
+</div>
+
+<!-- Modal Edit Item -->
+<div id="editItemModal" class="modal">
+    <div class="modal-content">        
+        <h4>Editar Articulo</h4>        
+          <form class="col s12">
+            <div class="row">                
+              <div input-field  ng-hide="true">
+                  <input type="number" ng-model="editItemVar.id" id="editItemVarId" ng-hide="true">                  
+              </div>                                
+            </div> 
+            <div class="row">                
+              <div input-field class="col s6">
+                  <input type="text" ng-model="editItemVar.name" id="editItemVarName" placeholder="Nombre del articulo">
+                  <label class="active" >Nombre del articulo</label>
+              </div> 
+              <div class="input-field col s6">
+                <select id="editItemVarType">                  
+                  <option value="1">no retornable</option>
+                  <option value="2">retornable</option>
+                </select>
+                <label>Tipo:</label>
+              </div>                                          
+            </div> 
+            <div class="row">                
+              <div input-field class="col s6">
+                  <input type="number" ng-model="editItemVar.price" id="editItemVarPrice" placeholder="Costo del articulo">
+                  <label class="active" >Costo del articulo</label>
+              </div> 
+              <div input-field class="col s6">
+                  <input type="number" ng-model="editItemVar.quantity" id="editItemVarQuantity" placeholder="Cantidad del articulo">
+                  <label class="active">Cantidad del articulo</label>
+              </div>                                
+            </div>
+            <div class="row">                
+              <div input-field class="col s6">
+                  <input type="number" ng-model="editItemVar.reorder" id="editItemVarReorder" placeholder="Reorden del articulo">
+                  <label class="active">Reorden del articulo</label>
+              </div> 
+              <div input-field class="col s6">
+                  <input type="number" ng-model="editItemVar.minStock" id="editItemVarMinStock" placeholder="Stock minimo del articulo">
+                  <label class="active">Stock minimo del articulo</label>
+              </div>                                
+            </div>  
+          </form>          
+    </div>
+    <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect waves-green btn-flat" ng-click="saveChangesItem(editItemVar)">Guardar</a>
+        <a class="modal-action modal-close waves-effect waves-red btn-flat" >Cancelar</a>        
+    </div>
+</div>
+
+<!-- Modal Delete Item -->
+<div id="deleteItemModal" class="modal">
+    <div class="modal-content">        
+        <div class="row">
+            Esta seguro de que desea eliminar este item?
+            <form>
+                <input ng-hide="true" type="number" id="itemId">                
+            </form>
+        </div>        
+    </div>
+    <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect waves-green btn-flat" ng-click="saveDeleteItem()">Eliminar</a>
+        <a class="modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>        
+    </div>
+</div>
+
