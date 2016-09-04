@@ -26,9 +26,9 @@ angular.module('bodegaUninorteApp')
 				data: {email: userData.email, password: userData.password}
 			}).then(function successCallback(response) {
 			    //STOP LOANDING ANIMATION
-			    console.log(response);
-			    console.log(response.headers);
+			    console.log(response);			    
 			    console.log(response.headers(['Authorization']));			    
+			    console.log(response.headers(['authorization']));			    
 			    if(userData.remember_me){
 					$localStorage.auth = {
 						token: response.headers('Authorization'),
