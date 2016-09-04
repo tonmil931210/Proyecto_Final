@@ -1,23 +1,36 @@
 'use strict';
 
 angular.module('bodegaUninorteApp')
-.factory('loginService',  function($rootScope,$location,sessionService, $localStorage, $cookieStore){
+.factory('loginService',  function($http ,$rootScope,$location,sessionService, $localStorage, $cookieStore){
 	return {
-		login: function(userData){							
-			var authData = {token:'13216546879'};
-			if(userData.remember_me){
-				$localStorage.auth = {
-					token: authData.token,
-					selected: userData.remember_me
-				};						
-			}else{
-				$cookieStore.put('token', authData.token);						
-			}
-			sessionService.set('token', authData.token);
-			$location.path('/dashboard');
-			if (!$rootScope.$$phase){
-			 	$rootScope.$apply();
-			}							
+		login: function(userData){										
+			//var authData = {token:'13216546879'};	
+			//START LOANDIG ANIMATION
+			$http({
+				method: 'POST',
+				url: 'http://laravel.dev/api/v1/login/',
+				data: {email: userData.email, password: userData.password}
+			}).then(function successCallback(response) {
+			    //STOP LOANDING ANIMATION
+			    console.log(response);
+			    console.log(response.headers('Authorization'));
+			    if(userData.remember_me){
+					$localStorage.auth = {
+						token: response.headers('Authorization'),
+						selected: userData.remember_me
+					};						
+				}else{
+					$cookieStore.put('token', response.headers('Authorization'));						
+				}
+				sessionService.set('token', response.headers('Authorization'));
+				$location.path('/dashboard');
+				if (!$rootScope.$$phase){
+				 	$rootScope.$apply();
+				}
+			  }, function errorCallback(response) {
+
+			  });		
+										
 		},		
 		logout: function(){
 			sessionService.destroy('token');			
