@@ -33,13 +33,26 @@ angular.module('bodegaUninorteApp')
 										
 		},		
 		logout: function(){
-			sessionService.destroy('token');			
-			$localStorage.auth = {
-		        token: null,
-		        selected: null
-		    };	    
-		    $cookieStore.put('token', undefined);
-			$location.path('/login');
+			$http({
+				method: 'DELETE',
+				url: 'http://laravel.dev/api/v1/logout/',
+				headers:{
+					'Authorization': sessionService.get('token')
+				}
+			}).then(function successCallback(response) {
+			    //STOP LOANDING ANIMATION	
+			    console.log(response);		
+			    sessionService.destroy('token');			
+				$localStorage.auth = {
+			        token: null,
+			        selected: null
+			    };	    
+			    $cookieStore.put('token', undefined);
+				$location.path('/login');    
+			  }, function errorCallback(response) {
+
+			  });	
+			
 		},
 		islogged:function(){			
 			if(sessionService.get('token')){
