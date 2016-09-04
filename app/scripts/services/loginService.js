@@ -28,7 +28,8 @@ angular.module('bodegaUninorteApp')
 			    //STOP LOANDING ANIMATION
 			    console.log(response);
 			    console.log(response.headers());			    
-			    console.log(response.headers(['Authorization']));			    
+			    console.log(response.headers(['Authorization']));
+			    console.log(response.headers(['cache-control']));			    
 			    console.log(response.headers(['Date']));			    
 			    if(userData.remember_me){
 					$localStorage.auth = {
