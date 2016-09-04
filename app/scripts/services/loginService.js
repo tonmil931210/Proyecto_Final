@@ -1,19 +1,34 @@
 'use strict';
 
 angular.module('bodegaUninorteApp')
-.factory('loginService',  function($http ,$rootScope,$location,sessionService, $localStorage, $cookieStore){
+.factory('loginService',  function($http ,$rootScope,$location,sessionService, $localStorage, $cookieStore, urlConstant){
 	return {
 		login: function(userData){										
-			//var authData = {token:'13216546879'};	
+			/*var authData = {token:'13216546879'};	
+			if(userData.remember_me){
+				$localStorage.auth = {
+					token: authData.token,
+					selected: userData.remember_me
+				};						
+			}else{
+				$cookieStore.put('token', authData.token);						
+			}
+			sessionService.set('token', authData.token);
+			$location.path('/dashboard');
+			if (!$rootScope.$$phase){
+			 	$rootScope.$apply();
+			}*/
 			//START LOANDIG ANIMATION
+
 			$http({
 				method: 'POST',
-				url: 'http://laravel.dev/api/v1/login/',
+				url: urlConstant + 'login/',
 				data: {email: userData.email, password: userData.password}
 			}).then(function successCallback(response) {
 			    //STOP LOANDING ANIMATION
 			    console.log(response);
 			    console.log(response.headers('Authorization'));
+			    console.log(response.headers.Authorization);
 			    if(userData.remember_me){
 					$localStorage.auth = {
 						token: response.headers('Authorization'),
@@ -29,13 +44,13 @@ angular.module('bodegaUninorteApp')
 				}
 			  }, function errorCallback(response) {
 
-			  });		
+			  });	
 										
 		},		
 		logout: function(){
 			$http({
 				method: 'DELETE',
-				url: 'http://laravel.dev/api/v1/logout/',
+				url: urlConstant + 'logout/',
 				headers:{
 					'Authorization': sessionService.get('token')
 				}

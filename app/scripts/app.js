@@ -19,6 +19,7 @@ angular
     'ui.materialize',
     'ngStorage'
   ])
+  .constant('urlConstant', 'http://laravel.dev/api/v1/')
   .config(function ($routeProvider, loginServiceProvider) {
     $routeProvider
       .when('/login',{
