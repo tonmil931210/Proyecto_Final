@@ -56,7 +56,7 @@ angular.module('bodegaUninorteApp')
 		    };	    
 		    $cookieStore.put('token', undefined);
 			$location.path('/login');    
-			$http({
+			/*$http({
 				method: 'DELETE',
 				url: urlConstant + 'logout/',
 				headers:{
@@ -74,7 +74,7 @@ angular.module('bodegaUninorteApp')
 				$location.path('/login');    
 			  }, function errorCallback(response) {
 
-			  });	
+			  });	*/
 			
 		},
 		islogged:function(){			
