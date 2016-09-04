@@ -50,14 +50,15 @@ angular.module('bodegaUninorteApp')
 										
 		},		
 		logout: function(){
-			sessionService.destroy('token');			
+			console.log("Algo mistico paso con el logout si no le diste logout");
+			/*sessionService.destroy('token');			
 			$localStorage.auth = {
 		        token: null,
 		        selected: null
 		    };	    
 		    $cookieStore.put('token', undefined);
-			$location.path('/login');    
-			/*$http({
+			$location.path('/login');    */
+			$http({
 				method: 'DELETE',
 				url: urlConstant + 'logout/',
 				headers:{
@@ -74,8 +75,8 @@ angular.module('bodegaUninorteApp')
 			    $cookieStore.put('token', undefined);
 				$location.path('/login');    
 			  }, function errorCallback(response) {
-
-			  });	*/
+			  	console.log('error al logout');
+			  });
 			
 		},
 		islogged:function(){			
