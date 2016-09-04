@@ -26,20 +26,19 @@ angular.module('bodegaUninorteApp')
 				data: {email: userData.email, password: userData.password}
 			}).then(function successCallback(response) {
 			    //STOP LOANDING ANIMATION
-			    console.log(response);
+			    console.log(response.token);
 			    console.log(response.headers());			    
-			    console.log(response.headers(['Authorization']));
-			    console.log(response.headers(['cache-control']));			    
-			    console.log(response.headers(['Date']));			    
+			    console.log("Authorization del header: " + response.headers(['Authorization']));
+			    console.log("Cache control del header: " + response.headers(['cache-control']));			    			    
 			    if(userData.remember_me){
 					$localStorage.auth = {
-						token: response.headers('Authorization'),
+						token: response.token,
 						selected: userData.remember_me
 					};						
 				}else{
-					$cookieStore.put('token', response.headers('Authorization'));						
+					$cookieStore.put('token', response.token);						
 				}
-				sessionService.set('token', response.headers('Authorization'));
+				sessionService.set('token', response.token);
 				$location.path('/dashboard');
 				if (!$rootScope.$$phase){
 				 	$rootScope.$apply();
