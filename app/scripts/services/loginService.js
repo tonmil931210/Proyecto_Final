@@ -48,6 +48,13 @@ angular.module('bodegaUninorteApp')
 										
 		},		
 		logout: function(){
+			sessionService.destroy('token');			
+			$localStorage.auth = {
+		        token: null,
+		        selected: null
+		    };	    
+		    $cookieStore.put('token', undefined);
+			$location.path('/login');    
 			$http({
 				method: 'DELETE',
 				url: urlConstant + 'logout/',
@@ -75,7 +82,7 @@ angular.module('bodegaUninorteApp')
 			}
 			else{
 				try{
-        			return $cookieStore.get('token') !== undefined || $localStorage.auth.token !== null;
+        			return ($cookieStore.get('token') !== undefined || $localStorage.auth.token !== null) && ($cookieStore.get('token') !== 'null' || $localStorage.auth.token !== 'null') ;
 				}catch(err){
 					this.logout();
 					return false;
