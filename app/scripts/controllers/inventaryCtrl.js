@@ -8,7 +8,7 @@
  * Controller of the bodegaUninorteApp
  */
 angular.module('bodegaUninorteApp')
-    .controller('InventoryCtrl', function ($scope) {
+    .controller('InventoryCtrl', function ($scope, itemService) {
 
     $(document).ready(function(){          
 	    $('.modal-trigger').leanModal();
@@ -146,6 +146,7 @@ angular.module('bodegaUninorteApp')
       		id = 1;
       	}
       	item.id = id;
+        itemService.new(item);
       	$scope.all.push(angular.copy(item));
 		    $scope.newItem = {type:$scope.itemTypes[0]};
 		    $scope.itemsForReoder = getItemsForReoder();            
