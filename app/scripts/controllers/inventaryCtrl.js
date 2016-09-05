@@ -38,6 +38,7 @@ angular.module('bodegaUninorteApp')
     $scope.saveItem = function(item){
       itemService.new(item);
 	    //RECARGAR DATOS
+      
     };
 
     $scope.editItemVar = {};      
