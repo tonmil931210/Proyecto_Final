@@ -92,7 +92,11 @@ class EventsController extends Controller
 }
 
     public function destroy($id) {
-        Event::destroy($id);
+        $event = Event::destroy($id);
+        if ($event) {
+            return Response() -> Json(['message' => 'ok'], 200);
+        }
+        return Response() -> Json(['message' => 'error'], 400);
     }
 
     private function transformCollection($events) {
@@ -101,15 +105,14 @@ class EventsController extends Controller
 
     private function transform($event) {
     	return [
-    		$event['id'] => [
-    			'name' => $event['name'],
-    			'date' => $event['date'],
-    		]
+            'id' => $event['id'],
+			'name' => $event['name'],
+			'date' => $event['date'],
     	];
     }
 
     private function SearchingIds($event, $type_search = '<') {
-        $value = event::where('id', $type_search, $event -> id);
+        $value = Event::where('id', $type_search, $event -> id);
         if ($type_search == '<') {
             return $value -> max('id');
         } 

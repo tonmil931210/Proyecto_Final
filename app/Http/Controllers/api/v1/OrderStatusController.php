@@ -91,7 +91,11 @@ class OrderStatusController extends Controller
 	}
 
     public function destroy($id) {
-        Order_status::destroy($id);
+        $order_status = Order_status::destroy($id);
+        if ($order_status) {
+            return Response() -> Json(['message' => 'ok'], 200);
+        }
+        return Response() -> Json(['message' => 'error'], 400);
     }
 
     private function transformCollection($order_status) {
@@ -100,9 +104,8 @@ class OrderStatusController extends Controller
 
     private function transform($order_status) {
     	return [
-    		$order_status['id'] => [
-    			'name' => $order_status['name'],
-    		]
+            'id' => $order_status['id'], 
+			'name' => $order_status['name'],
     	];
     }
 

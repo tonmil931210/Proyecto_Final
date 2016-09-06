@@ -98,7 +98,11 @@ class ItemsController extends Controller
 	}
 
     public function destroy($id) {
-        Item::destroy($id);
+        $item = Item::destroy($id);
+        if ($item) {
+            return Response() -> Json(['message' => 'ok'], 200);
+        }
+        return Response() -> Json(['message' => 'error'], 400);
     }
 
     private function transformCollection($items) {
@@ -107,14 +111,13 @@ class ItemsController extends Controller
 
     private function transform($item) {
     	return [
-    		$item['id'] => [
-    			'name' => $item['name'],
-    			'item_type_id' => $item['item_type_id'],
-                'number' => $item['number'],
-                'price' => $item['price'],
-                'recorder' => $item['number'],
-                'min_stock' => $item['min_stock'],
-    		]
+            'id' => $item['id'],
+			'name' => $item['name'],
+			'item_type_id' => $item['item_type_id'],
+            'number' => $item['number'],
+            'price' => $item['price'],
+            'recorder' => $item['number'],
+            'min_stock' => $item['min_stock'],
     	];
     }
 

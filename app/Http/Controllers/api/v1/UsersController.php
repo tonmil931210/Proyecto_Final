@@ -96,7 +96,11 @@ class UsersController extends Controller
 }
 
     public function destroy($id) {
-        User::destroy($id);
+        $user = User::destroy($id);
+        if ($user) {
+            return Response() -> Json(['message' => 'ok'], 200);
+        }
+        return Response() -> Json(['message' => 'error'], 400);
     }
 
     private function transformCollection($users) {
@@ -105,11 +109,10 @@ class UsersController extends Controller
 
     private function transform($user) {
     	return [
-    		$user['id'] => [
-    			'name' => $user['name'],
-    			'email' => $user['email'],
-                'type' => $user['type'],
-    		]
+            'id' => $user['id'],
+			'name' => $user['name'],
+			'email' => $user['email'],
+            'type' => $user['type'],	
     	];
     }
 

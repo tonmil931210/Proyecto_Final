@@ -91,7 +91,11 @@ class ItemsTypeController extends Controller
 }
 
     public function destroy($id) {
-        Item_type::destroy($id);
+        $item_type = Item_type::destroy($id);
+        if ($item_type) {
+            return Response() -> Json(['message' => 'ok'], 200);
+        }
+        return Response() -> Json(['message' => 'error'], 400);
     }
 
     private function transformCollection($item_types) {
@@ -100,9 +104,8 @@ class ItemsTypeController extends Controller
 
     private function transform($item_type) {
     	return [
-    		$item_type['id'] => [
-    			'name' => $item_type['name'],
-    		]
+            'id' => $item_type['id'],
+			'name' => $item_type['name'],
     	];
     }
 
