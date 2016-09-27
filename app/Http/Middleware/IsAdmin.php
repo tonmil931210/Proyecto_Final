@@ -17,10 +17,11 @@ class IsAdmin
      */
     public function handle($request, Closure $next)
     {
+        log::info("entro a  isAdmin");
         $token_key = getallheaders()["Authorization"];
         $token = Token::where('token', $token_key) -> get() -> first();
         if ($token) {
-            $type = $token -> user -> type
+            $type = $token -> user -> type;
             if ($type == 'admin' or $type == 'admin' or $type == 'gerente' or $type == 'asesor' or $type == 'bodega' or $type == 'director') {
                 $request->merge(array("user_id" =>  $token -> user -> id));
                 log::info($request);
