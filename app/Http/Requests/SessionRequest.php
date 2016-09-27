@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 use Illuminate\Contracts\Validation\Validator;
-
+use Log;
 class SessionRequest extends Request
 {
     /**
@@ -24,6 +24,7 @@ class SessionRequest extends Request
      */
     public function rules()
     {
+        log::info("entre SessionRequest");
         return [
             'email' => 'required',
             'password' => 'required'

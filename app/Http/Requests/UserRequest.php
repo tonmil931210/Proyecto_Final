@@ -26,7 +26,7 @@ class UserRequest extends Request
      */
     public function rules()
     {
-        log::info("entrw1");
+        log::info("entro a userRequest");
         $user = User::find($this->users);
         log::info($user);
         switch($this->method())
@@ -36,21 +36,19 @@ class UserRequest extends Request
                     'name' => 'required',
                     'password' => 'required',
                     'email' => 'required|unique:users,email',
-                    'type' => 'required|in:admin,user1,user2'
+                    'type' => 'required|in:admin,gerente,asesor, bodega, director'
                 ];
             case 'PUT':
                 return [
-                    'name' => 'required',
-                    'password' => 'required',
+                    'name' => 'required',,
                     'email' => "required|unique:users,email,$user->id",
-                    'type' => 'required|in:admin,user1,user2'
+                    'type' => 'required|in:admin,gerente,asesor, bodega, director'
                 ];
             case 'PATCH':
                 return [
                     'name' => 'required',
-                    'password' => 'required',
                     'email' => "required|unique:users,email,$user->id",
-                    'type' => 'required|in:admin,user1,user2'
+                    'type' => 'required|in:admin,gerente,asesor, bodega, director'
                 ];
             default:break;   
         }

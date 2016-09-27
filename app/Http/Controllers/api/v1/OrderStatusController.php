@@ -20,6 +20,7 @@ class OrderStatusController extends Controller
     }
 
     public function index() {
+        log::info("entro a index OrderStatus");
         $order_status = Order_status::all();
         return Response() -> Json([
             'data' => [
@@ -29,6 +30,7 @@ class OrderStatusController extends Controller
     }
 
     public function show($id) {
+        log::info("entro a show OrderStatus");
         $order_status = Order_status::find($id);
         $status_code = 200;
         $message = '';
@@ -54,12 +56,12 @@ class OrderStatusController extends Controller
     }
 
     public function store(OrderStatusRequest $request) {
+        log::info("entro a store OrderStatus");
         $status_code = 200;
         $message = '';
         $input = $request -> only(['name']);
         log::info($input);
         $order_status = Order_status::create($input);
-        log::info('entre2');
         if (!$order_status) {
             $status_code = 404;
             $message = 'problem with create order_status';
@@ -73,6 +75,7 @@ class OrderStatusController extends Controller
     }
 
     public function update(OrderStatusRequest $request, $id) {
+        log::info("entro a update OrderStatus");
         $status_code = 200;
         $message = '';
         $order_status = Order_status::find($id);
@@ -91,6 +94,7 @@ class OrderStatusController extends Controller
 	}
 
     public function destroy($id) {
+        log::info("entro a destroy OrderStatus");
         $order_status = Order_status::destroy($id);
         if ($order_status) {
             return Response() -> Json(['message' => 'ok'], 200);

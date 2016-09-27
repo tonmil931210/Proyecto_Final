@@ -20,9 +20,8 @@ class ItemsController extends Controller
     }
 
     public function index() {
-        log::info('itemindex');
+        log::info("entro a index item");
         $items = Item::all();
-        log::info('itemindex2');
         return Response() -> Json([
             'data' => [
                 'items' => $this -> transformCollection($items)
@@ -31,6 +30,7 @@ class ItemsController extends Controller
     }
 
     public function show($id) {
+        log::info("entro a show item");
         $item = Item::find($id);
         $status_code = 200;
         $message = '';
@@ -56,12 +56,11 @@ class ItemsController extends Controller
     }
 
     public function store(itemRequest $request) {
+        log::info("entro a store item");
         $status_code = 200;
         $message = '';
-        $input = $request -> only(['name', 'item_type_id', 'number', 'price', 'recorder', 'min_stock']);
-        log::info($input);
+        $input = $request -> only(['name', 'itemType_id', 'number', 'price', 'reorder', 'min_stock']);
         $item = Item::create($input);
-        log::info('entre2');
         if (!$item) {
             $status_code = 404;
             $message = 'problem with create item';
@@ -75,14 +74,15 @@ class ItemsController extends Controller
     }
 
     public function update(itemRequest $request, $id) {
+        log::info("entro a update item");
         $status_code = 200;
         $message = '';
         $item = Item::find($id);
         $item -> name = $request -> name;
-        $item -> item_type_id = $request -> item_type_id;
+        $item -> itemType_id = $request -> itemType_id;
         $item -> number = $request -> number;
         $item -> price = $request -> price;
-        $item -> recorder = $request -> recorder;
+        $item -> reorder = $request -> reorder;
         $item -> min_stock = $request -> min_stock;
         $item -> save();
         if (!$item) {
@@ -98,6 +98,7 @@ class ItemsController extends Controller
 	}
 
     public function destroy($id) {
+        log::info("entro a destroy item");
         $item = Item::destroy($id);
         if ($item) {
             return Response() -> Json(['message' => 'ok'], 200);
@@ -113,10 +114,10 @@ class ItemsController extends Controller
     	return [
             'id' => $item['id'],
 			'name' => $item['name'],
-			'item_type_id' => $item['item_type_id'],
+			'itemType_id' => $item['itemType_id'],
             'number' => $item['number'],
             'price' => $item['price'],
-            'recorder' => $item['number'],
+            'reorder' => $item['number'],
             'min_stock' => $item['min_stock'],
     	];
     }

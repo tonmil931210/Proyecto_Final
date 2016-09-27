@@ -26,7 +26,7 @@ class ItemRequest extends Request
      */
      public function rules()
     {
-        log::info("entrw1");
+        log::info("entre itemRequest");
         $item = Item::find($this->items);
         log::info($item);
         switch($this->method())
@@ -35,27 +35,27 @@ class ItemRequest extends Request
                 return [
                     'name' => 'required|unique:items,name',
                     'price' => 'required',
-                    'item_type_id' => 'required',
+                    'itemType_id' => 'required',
                     'number' => 'required',
-                    'recorder' => 'required',
+                    'reorder' => 'required',
                     'min_stock' => 'required',
                 ];
             case 'PUT':
                 return [
                     'name' => "required|unique:items,name,$item->id",
                     'price' => 'required',
-                    'item_type_id' => 'required',
+                    'itemType_id' => 'required',
                     'number' => 'required',
-                    'recorder' => 'required',
+                    'reorder' => 'required',
                     'min_stock' => 'required',
                 ];
             case 'PATCH':
                 return [
                     'name' => "required|unique:items,name,$item->id",
                     'price' => 'required',
-                    'item_type_id' => 'required',
+                    'itemType_id' => 'required',
                     'number' => 'required',
-                    'recorder' => 'required',
+                    'reorder' => 'required',
                     'min_stock' => 'required',
                 ];
             default:break;   

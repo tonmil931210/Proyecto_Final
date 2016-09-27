@@ -17,6 +17,7 @@ class CreateOrderItemsTable extends Migration
             $table -> integer('item_id') -> unsigned();
             $table -> integer('order_id') -> unsigned();
             $table -> integer('number');
+            $table -> date('date');
             $table -> timestamps();
         });
     }
@@ -28,6 +29,8 @@ class CreateOrderItemsTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('order_items');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

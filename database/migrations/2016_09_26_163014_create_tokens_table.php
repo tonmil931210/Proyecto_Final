@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateItemTypesTable extends Migration
+class CreateTokensTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,10 @@ class CreateItemTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('item_types', function (Blueprint $table) {
+        Schema::create('tokens', function (Blueprint $table) {
             $table -> increments('id');
-            $table -> string('name') -> unique();
+            $table -> string('token') -> unique();
+            $table -> integer('user_id') -> unsigned();
             $table -> timestamps();
         });
     }
@@ -26,6 +27,8 @@ class CreateItemTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('item_types');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        Schema::dropIfExists('tokens');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

@@ -19,24 +19,19 @@ class SessionsController extends Controller
 
     public function login(SessionRequest $request){
     	$email = $request -> email;
-    	#log::info(strval($email));
     	$password = $request -> password;
-    	log::info("entre1");
+    	log::info("entre login");
         $user = User::where('email', $email) -> first();
         log::info($user);
         if ($user) {
             $id = $user -> id;
             $user_password = crypt::decrypt(User::find($id) -> password);
-            log::info($user_password);
-            log::info($password);
             if ($user_password == $password) {
                 do {
                     $token = Str::random(60);
-                    #log::info($token);
                 } while (!Token::where("token", $token) -> get());
-                #log::info($user);
                 Token::create(['token' => $token, 'user_id' => $id]);
-                return Response() -> Json(['message' => 'successful', 'token' => $token], 200) -> header("Authorization", $token);
+                return Response() -> Json(['message' => 'successful', 'token' => $token, 'type' => $user -> type], 200) -> header('Authorization', $token);
             } else {
                 return Response() -> Json(['message' => 'error'], 400);
             } 
@@ -48,6 +43,7 @@ class SessionsController extends Controller
     }
 
     public function logout(){
+        log::info("entre logout");
     	$token_key = getallheaders()["Authorization"];
     	$user = Token::where('token', $token_key) -> get() -> first();
     	if ($user) {

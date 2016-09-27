@@ -10,7 +10,9 @@ use App\Http\Requests\OrderRequest;
 
 use Log;
 use Illuminate\Http\Response;
+use \Illuminate\Support\Collection;
 use App\Order;
+use App\Order_item;
 
 class OrdersController extends Controller
 {
@@ -20,6 +22,7 @@ class OrdersController extends Controller
     }
 
     public function index() {
+        log::info("entro a index order");
         $orders = Order::all();
         return Response() -> Json([
             'data' => [
@@ -29,6 +32,7 @@ class OrdersController extends Controller
     }
 
     public function show($id) {
+        log::info("entro a show order");
         $order = Order::find($id);
         $status_code = 200;
         $message = '';
@@ -53,12 +57,20 @@ class OrdersController extends Controller
 
     }
 
-    public function store(OrderTypeRequest $request) {
+    public function store(OrderRequest $request) {
+        log::info("entro a store order");
         $status_code = 200;
         $message = '';
         $input = $request -> only(['user_id, event_id, order_status_id, date, comments']);
-        log::info($input);
+        log::info($request);
         $order = Order::create($input);
+        log::info(json_decode($request -> items, true)[0]['id']);
+        if ($request -> items){
+            foreach (json_decode($request -> items, true) as $item) {
+               log::info($item);
+               log::info($item['id']); 
+            }
+        }
         log::info('entre2');
         if (!$order) {
             $status_code = 404;
@@ -72,7 +84,8 @@ class OrdersController extends Controller
                 ], $status_code);
     }
 
-    public function update(OrderTypeRequest $request, $id) {
+    public function update(OrderRequest $request, $id) {
+        log::info("entro a update order");
         $status_code = 200;
         $message = '';
         $order = Order::find($id);
@@ -97,6 +110,7 @@ class OrdersController extends Controller
 	}
 
     public function destroy($id) {
+        log::info("entro a destroy order");
         Order::destroy($id);
     }
 
@@ -107,7 +121,7 @@ class OrdersController extends Controller
     private function transform($order) {
     	return [
     		$order['id'] => [
-    			'event_name' => $order -> event -> name,
+    			'event_name' => $order -> event() -> name,
     			'order_status' => $order -> order_status -> name,
     			'date_in' => $order -> date,
     			'comment' => $order -> comment,

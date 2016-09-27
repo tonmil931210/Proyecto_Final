@@ -20,6 +20,7 @@ class EventsController extends Controller
     }
 
     public function index() {
+        log::info("entro a index event");
         $events = Event::all();
         return Response() -> Json([
             'data' => [
@@ -29,6 +30,7 @@ class EventsController extends Controller
     }
 
     public function show($id) {
+        log::info("entro a show event");
         $event = Event::find($id);
         $status_code = 200;
         $message = '';
@@ -54,11 +56,11 @@ class EventsController extends Controller
     }
 
     public function store(EventRequest $request) {
+        log::info("entro a store event");
         $status_code = 200;
         $message = '';
-        $input = $request -> only(['name', 'date', 'user_id']);
+        $input = $request -> only(['name', 'start_date', 'finish_date', 'start_time', 'finish_time', 'location', 'place']);
         $event = Event::create($input);
-        log::info('entre2');
         if (!$event) {
             $status_code = 404;
             $message = 'problem with create event';
@@ -72,12 +74,17 @@ class EventsController extends Controller
     }
 
     public function update(EventRequest $request, $id) {
+        log::info("entro a update event");
         $status_code = 200;
         $message = '';
         $event = Event::find($id);
         $event -> name = $request -> name;
-        $event -> date = $request -> date;
-        $event -> user_id = $request -> user_id;
+        $event -> start_date = $request -> start_date;
+        $event -> finish_date = $request -> finish_date;
+        $event -> start_time = $request -> start_time;
+        $event -> finish_time = $request -> finish_time;
+        $event -> location = $request -> location;
+        $event -> place = $request -> place;
         $event -> save();
         if (!$event) {
             $status_code = 404;
@@ -92,6 +99,7 @@ class EventsController extends Controller
 }
 
     public function destroy($id) {
+        log::info("entro a destroy event");
         $event = Event::destroy($id);
         if ($event) {
             return Response() -> Json(['message' => 'ok'], 200);
@@ -107,7 +115,12 @@ class EventsController extends Controller
     	return [
             'id' => $event['id'],
 			'name' => $event['name'],
-			'date' => $event['date'],
+			'start_date' => $event['start_date'],
+            'finish_date' => $event['finish_date'],
+            'start_time' => $event['start_time'],
+            'finish_time' => $event['finish_time'],
+            'location' => $event['location'],
+            'place' => $event['place'],
     	];
     }
 

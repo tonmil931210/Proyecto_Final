@@ -14,11 +14,11 @@ class CreateItemsTable extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table -> increments('id');
-            $table -> integer('item_type_id') -> unsigned();
+            $table -> integer('itemType_id') -> unsigned();      
             $table -> string('name') -> unique();
             $table -> float('price');
             $table -> integer('number');
-            $table -> integer('recorder');
+            $table -> integer('reorder');
             $table -> integer('min_stock');
             $table -> timestamps();
         });
@@ -31,6 +31,8 @@ class CreateItemsTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('items');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

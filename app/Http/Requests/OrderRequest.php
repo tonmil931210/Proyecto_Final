@@ -25,11 +25,14 @@ class OrderRequest extends Request
      */
     public function rules()
     {
+        log::info("entre orderRequest");
         return [
             'user_id' => 'required',
             'event_id' => 'required',
-            'order_status_id' => 'required',
-            'date' => 'required'
+            'orderStatus_id' => 'required',
+            'date' => 'required',
+            'items' => 'required',
+            'name_client' => 'required'
         ];
     }
 

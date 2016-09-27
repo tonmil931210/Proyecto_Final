@@ -20,6 +20,7 @@ class ItemsTypeController extends Controller
     }
 
     public function index() {
+        log::info("entro a index itemType");
         $item_types = Item_type::all();
         return Response() -> Json([
             'data' => [
@@ -29,6 +30,7 @@ class ItemsTypeController extends Controller
     }
 
     public function show($id) {
+        log::info("entro a show itemType");
         $item_type = Item_type::find($id);
         $status_code = 200;
         $message = '';
@@ -54,6 +56,7 @@ class ItemsTypeController extends Controller
     }
 
     public function store(ItemTypeRequest $request) {
+        log::info("entro a store itemType");
         $status_code = 200;
         $message = '';
         $input = $request -> only(['name']);
@@ -73,6 +76,7 @@ class ItemsTypeController extends Controller
     }
 
     public function update(ItemTypeRequest $request, $id) {
+        log::info("entro a update itemType");
         $status_code = 200;
         $message = '';
         $item_type = Item_type::find($id);
@@ -91,6 +95,7 @@ class ItemsTypeController extends Controller
 }
 
     public function destroy($id) {
+        log::info("entro a destroy itemType");
         $item_type = Item_type::destroy($id);
         if ($item_type) {
             return Response() -> Json(['message' => 'ok'], 200);

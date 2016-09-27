@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTokensTable extends Migration
+class CreateRetornableOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,9 @@ class CreateTokensTable extends Migration
      */
     public function up()
     {
-        Schema::create('tokens', function (Blueprint $table) {
+        Schema::create('retornable_orders', function (Blueprint $table) {
             $table -> increments('id');
-            $table -> string('token') -> unique();
-            $table -> integer('user_id') -> unsigned();
+            $table -> integer('order_id') -> unsigned();
             $table -> timestamps();
         });
     }
@@ -27,6 +26,8 @@ class CreateTokensTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tokens');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        Schema::dropIfExists('retornable_orders');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

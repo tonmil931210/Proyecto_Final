@@ -22,6 +22,7 @@ class UsersController extends Controller
     }
 
     public function index() {
+        log::info("entro a index user");
         $users = User::all();
         return Response() -> Json([
             'data' => [
@@ -31,6 +32,7 @@ class UsersController extends Controller
     }
 
     public function show($id) {
+        log::info("entro a show user");
         $user = User::find($id);
         $status_code = 200;
         $message = '';
@@ -56,12 +58,12 @@ class UsersController extends Controller
     }
 
     public function store(UserRequest $request) {
+        log::info("entro a store user");
         $status_code = 200;
         $message = '';
         $input = $request -> only(['name', 'email', 'password', 'type']);
         log::info($input);
         $user = User::create($input);
-        log::info('entre2');
         if (!$user) {
             $status_code = 404;
             $message = 'problem with create user';
@@ -75,12 +77,15 @@ class UsersController extends Controller
     }
 
     public function update(UserRequest $request, $id) {
+        log::info("entro a update user");
         $status_code = 200;
         $message = '';
         $user = User::find($id);
         $user -> name = $request -> name;
         $user -> email = $request -> email;
-        $user -> password = $request -> password;
+        if ($request -> has('password')) {
+            $user -> password = $request -> password;
+        } 
         $user -> type = $request -> type;
         $user -> save();
         if (!$user) {
@@ -96,6 +101,7 @@ class UsersController extends Controller
 }
 
     public function destroy($id) {
+        log::info("entro a destroy user");
         $user = User::destroy($id);
         if ($user) {
             return Response() -> Json(['message' => 'ok'], 200);

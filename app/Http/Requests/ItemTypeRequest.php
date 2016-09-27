@@ -25,7 +25,7 @@ class ItemTypeRequest extends Request
      */
     public function rules()
     {
-        log::info("entrw1");
+        log::info("entre itemTypeRequest");
         $items_type = Item_type::find($this->itemsType);
         log::info($items_type);
         switch($this->method())

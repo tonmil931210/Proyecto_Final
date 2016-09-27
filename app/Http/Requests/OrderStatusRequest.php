@@ -25,7 +25,7 @@ class OrderStatusRequest extends Request
      */
     public function rules()
     {
-        log::info("entrw1");
+        log::info("entre OrderStatusRequest");
         $order_status = Order_status::find($this->orderStatus);
         log::info($order_status);
         switch($this->method())

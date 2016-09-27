@@ -25,7 +25,7 @@ class EventRequest extends Request
      */
     public function rules()
     {
-        log::info("entrw1");
+        log::info("entre eventRequest");
         $event = Event::find($this->events);
         log::info($event);
         switch($this->method())
@@ -33,20 +33,32 @@ class EventRequest extends Request
             case 'POST':
                 return [
                     'name' => 'required|unique:events,name',
-                    'date' => 'required',
-                    'user_id' => 'required',
+                    'start_date' => 'required',
+                    'finish_date' => 'required',
+                    'start_time' => 'required',
+                    'finish_time' => 'required',
+                    'location' => 'required',
+                    'place' => 'required'
                 ];
             case 'PUT':
                 return [
                     'name' => "required|unique:events,name,$event->id",
-                    'date' => 'required',
-                    'user_id' => 'required',
+                    'start_date' => 'required',
+                    'finish_date' => 'required',
+                    'start_time' => 'required',
+                    'finish_time' => 'required',
+                    'location' => 'required',
+                    'place' => 'required'
                 ];
             case 'PATCH':
                 return [
                     'name' => "required|unique:events,name,$event->id",
-                    'date' => 'required',
-                    'user_id' => 'required',
+                    'start_date' => 'required',
+                    'finish_date' => 'required',
+                    'start_time' => 'required',
+                    'finish_time' => 'required',
+                    'location' => 'required',
+                    'place' => 'required'
                 ];
             default:break;   
         }
