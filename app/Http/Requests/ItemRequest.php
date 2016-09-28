@@ -35,7 +35,7 @@ class ItemRequest extends Request
                 return [
                     'name' => 'required|unique:items,name',
                     'price' => 'required',
-                    'itemType_id' => 'required',
+                    'item_type_id' => 'required',
                     'number' => 'required',
                     'reorder' => 'required',
                     'min_stock' => 'required',
@@ -44,7 +44,7 @@ class ItemRequest extends Request
                 return [
                     'name' => "required|unique:items,name,$item->id",
                     'price' => 'required',
-                    'itemType_id' => 'required',
+                    'item_type_id' => 'required',
                     'number' => 'required',
                     'reorder' => 'required',
                     'min_stock' => 'required',
@@ -53,7 +53,7 @@ class ItemRequest extends Request
                 return [
                     'name' => "required|unique:items,name,$item->id",
                     'price' => 'required',
-                    'itemType_id' => 'required',
+                    'item_type_id' => 'required',
                     'number' => 'required',
                     'reorder' => 'required',
                     'min_stock' => 'required',

@@ -29,7 +29,7 @@ class OrderRequest extends Request
         return [
             'user_id' => 'required',
             'event_id' => 'required',
-            'orderStatus_id' => 'required',
+            'order_status_id' => 'required',
             'date' => 'required',
             'items' => 'required',
             'name_client' => 'required'

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     protected $fillable = [
-        'user_id', 'event_id', 'orderStatus_id', 'date', 'commnet', 'name_client'
+        'user_id', 'event_id', 'order_status_id', 'date', 'commnet', 'name_client'
     ];
 
     protected $guarded = [
@@ -16,17 +16,17 @@ class Order extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User', 'user_id');
+        return $this->belongsTo('App\User');
     }
 
     public function event()
     {
-        return $this->belongsTo('App\Event', 'event_id');
+        return $this->belongsTo('App\Event');
     }
 
     public function order_status()
     {
-        return $this->belongsTo('App\Order_status', 'orderStatus_id');
+        return $this->belongsTo('App\Order_status');
     }
 
     public function items(){

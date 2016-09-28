@@ -59,7 +59,7 @@ class ItemsController extends Controller
         log::info("entro a store item");
         $status_code = 200;
         $message = '';
-        $input = $request -> only(['name', 'itemType_id', 'number', 'price', 'reorder', 'min_stock']);
+        $input = $request -> only(['name', 'item_type_id', 'number', 'price', 'reorder', 'min_stock']);
         $item = Item::create($input);
         if (!$item) {
             $status_code = 404;
@@ -79,7 +79,7 @@ class ItemsController extends Controller
         $message = '';
         $item = Item::find($id);
         $item -> name = $request -> name;
-        $item -> itemType_id = $request -> itemType_id;
+        $item -> item_type_id = $request -> item_type_id;
         $item -> number = $request -> number;
         $item -> price = $request -> price;
         $item -> reorder = $request -> reorder;
@@ -114,7 +114,7 @@ class ItemsController extends Controller
     	return [
             'id' => $item['id'],
 			'name' => $item['name'],
-			'itemType_id' => $item['itemType_id'],
+			'item_type_id' => $item['item_type_id'],
             'number' => $item['number'],
             'price' => $item['price'],
             'reorder' => $item['number'],

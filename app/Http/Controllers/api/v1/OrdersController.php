@@ -13,6 +13,8 @@ use Illuminate\Http\Response;
 use \Illuminate\Support\Collection;
 use App\Order;
 use App\Order_item;
+use APP\Retornable_order;
+use APP\Consumer_order; 
 
 class OrdersController extends Controller
 {
@@ -61,14 +63,16 @@ class OrdersController extends Controller
         log::info("entro a store order");
         $status_code = 200;
         $message = '';
-        $input = $request -> only(['user_id, event_id, order_status_id, date, comments']);
+        $input = $request -> only(['user_id, event_id, order_status_id, date, comments, name_client']);
         log::info($request);
         $order = Order::create($input);
+        log::info($order -> event -> id);
         log::info(json_decode($request -> items, true)[0]['id']);
         if ($request -> items){
             foreach (json_decode($request -> items, true) as $item) {
                log::info($item);
-               log::info($item['id']); 
+               log::info($item['id']);
+
             }
         }
         log::info('entre2');
@@ -122,10 +126,10 @@ class OrdersController extends Controller
     	return [
     		$order['id'] => [
     			'event_name' => $order -> event() -> name,
-    			'order_status' => $order -> order_status -> name,
+    			'order_status' => $order -> order_status() -> name,
     			'date_in' => $order -> date,
     			'comment' => $order -> comment,
-    			'items' => transformCollectionItems($order -> items),
+    			'items' => transformCollectionItems($order -> items()),
     		]
     	];
     }

@@ -4,6 +4,8 @@ use Illuminate\Database\Seeder;
 use App\User;
 use App\Item_type;
 use App\Order_status;
+use App\Event;
+use App\Item;
 
 // composer require laracasts/testdummy
 use Laracasts\TestDummy\Factory as TestDummy;
@@ -38,6 +40,32 @@ class UsersTableSeeder extends Seeder
             ]);
         Order_status::create([                
                 'name' => 'Cancelado'
+            ]);
+
+        Event::create([                
+                'name' => 'Feria pop',
+                'start_date' => '2016-09-27',
+                'finish_date' => '2016-09-30',
+                'start_time' => '4:32:00',
+                'finish_time' => '6:30:00',
+                'location' => 'Kilometro 5',
+                'place' => 'Uninorte'
+            ]);
+        Item::create([                
+                'name' => 'libreta',
+                'price' => '1000',
+                'item_type_id' => '1',
+                'number' => '30',
+                'reorder' => '10',
+                'min_stock' => '5',
+            ]);
+        Item::create([                
+                'name' => 'pañoleta',
+                'price' => '999',
+                'item_type_id' => '2',
+                'number' => '50',
+                'reorder' => '15',
+                'min_stock' => '10',
             ]);
     }
 }

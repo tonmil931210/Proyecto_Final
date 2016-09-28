@@ -43,11 +43,6 @@ class User extends Authenticatable
 
     public function tokens()
     {
-    return $this->hasMany('App\Token');
-    }
-
-    public function events()
-    {
-    return $this->hasMany('App\Event');
+    return $this->hasMany('App\Token', 'user_id');
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Item extends Model
 {
     protected $fillable = [
-        'name', 'itemType_id', 'price', 'number', 'min_stock', 'reorder',      
+        'name', 'item_type_id', 'price', 'number', 'min_stock', 'reorder',      
     ];
 
     protected $guarded = [
@@ -16,7 +16,7 @@ class Item extends Model
 
     public function item_type()
     {
-        return $this->belongsTo('App\Item_type', 'itemType_id');
+        return $this->belongsTo('App\Item_type');
     }
 
     public function orders(){
