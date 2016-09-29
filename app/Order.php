@@ -21,7 +21,7 @@ class Order extends Model
 
     public function event()
     {
-        return $this->belongsTo('App\Event');
+        return $this->belongsTo('App\Event', 'event_id');
     }
 
     public function order_status()
@@ -30,6 +30,6 @@ class Order extends Model
     }
 
     public function items(){
-        return $this->belongsToMany('Item', 'order_item', 'order_id', 'item_id');
+        return $this->belongsToMany('App\Item', 'order_items', 'order_id', 'item_id')->withPivot('number', 'date');;
     }
 }

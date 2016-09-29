@@ -7,22 +7,24 @@ use Illuminate\Database\Eloquent\Model;
 class Order_item extends Model
 {
     protected $fillable = [
-        'item_id', 'order_id', 'number',
+        'item_id', 'order_id', 'number', 'date'
     ];
 
     protected $guarded = [
         'id'
     ];
 
+    protected $table = 'order_items';
+
 
     public function item()
     {
-        return $this->belongsTo('App\Item');
+        return $this->belongsTo('App\Item', 'item_id');
     }
 
     public function order()
     {
-        return $this->belongsTo('App\Order');
+        return $this->belongsTo('App\Order', 'order_id');
     }
 
 }

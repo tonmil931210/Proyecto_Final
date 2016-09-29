@@ -6,6 +6,8 @@ use App\Item_type;
 use App\Order_status;
 use App\Event;
 use App\Item;
+use App\Order_item;
+use App\Order;
 
 // composer require laracasts/testdummy
 use Laracasts\TestDummy\Factory as TestDummy;
@@ -66,6 +68,19 @@ class UsersTableSeeder extends Seeder
                 'number' => '50',
                 'reorder' => '15',
                 'min_stock' => '10',
+            ]);
+        Order_item::create([                
+                'item_id' => '1',
+                'order_id' => '1',
+                'number' => '2',
+                'date' => '1992-12-12',
+            ]);
+        Order::create([                
+                'event_id' => '1',
+                'order_status_id' => '1',
+                'user_id' => '1',
+                'date' => '1992-12-12',
+                'name_client' => 'milton',
             ]);
     }
 }

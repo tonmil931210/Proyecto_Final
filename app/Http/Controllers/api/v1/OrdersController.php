@@ -15,6 +15,7 @@ use App\Order;
 use App\Order_item;
 use APP\Retornable_order;
 use APP\Consumer_order; 
+use APP\Item;
 
 class OrdersController extends Controller
 {
@@ -63,19 +64,22 @@ class OrdersController extends Controller
         log::info("entro a store order");
         $status_code = 200;
         $message = '';
-        $input = $request -> only(['user_id, event_id, order_status_id, date, comments, name_client']);
-        log::info($request);
+        $input = $request -> only(['user_id', 'event_id', 'order_status_id', 'date', 'comments', 'name_client']);
+        log::info($input);
         $order = Order::create($input);
-        log::info($order -> event -> id);
-        log::info(json_decode($request -> items, true)[0]['id']);
         if ($request -> items){
             foreach (json_decode($request -> items, true) as $item) {
                log::info($item);
                log::info($item['id']);
+               Order_item::create([                
+                    'item_id' => $item['id'],
+                    'order_id' => $order -> id,
+                    'number' => $item['number'],
+                    'date' => $item['date'],
+                ]);
 
             }
         }
-        log::info('entre2');
         if (!$order) {
             $status_code = 404;
             $message = 'problem with create order';
@@ -123,14 +127,14 @@ class OrdersController extends Controller
     }
 
     private function transform($order) {
+        $one_order = Order::find($order['id']);
     	return [
-    		$order['id'] => [
-    			'event_name' => $order -> event() -> name,
-    			'order_status' => $order -> order_status() -> name,
-    			'date_in' => $order -> date,
-    			'comment' => $order -> comment,
-    			'items' => transformCollectionItems($order -> items()),
-    		]
+            'id' => $order['id'], 
+			'event_name' => $one_order -> event -> name,
+			'order_status' => $one_order -> order_status -> name,
+			'date_in' => $one_order -> date,
+			'comment' => $one_order -> comment,
+			'items' => $one_order -> items,
     	];
     }
 
@@ -139,12 +143,12 @@ class OrdersController extends Controller
     }
 
     private function transformItem($item) {
+        #$one_item = Item::find($item['id']);
     	return [
-    		$item['id'] => [
-    			'event_name' => $item -> name,
-    			'price' => $item -> price,
-    			'number' => $item -> number,
-    		]
+            'id' => $item['id'],
+			#'event_name' => $one_item -> name,
+			#'price' => $one_item -> price,
+			#'number' => $one_item -> number,
     	];
     }
 

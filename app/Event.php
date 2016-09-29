@@ -13,4 +13,9 @@ class Event extends Model
     protected $guarded = [
         'id'
     ];
+
+    public function orders()
+    {
+        return $this->hasMany('App\Order', 'event_id');
+    }
 }
