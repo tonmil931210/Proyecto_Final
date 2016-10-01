@@ -27,12 +27,12 @@ class OrderRequest extends Request
     {
         log::info("entre orderRequest");
         return [
-            'user_id' => 'required',
-            'event_id' => 'required',
+            'name_client' => 'required',
+            'items' => 'required',
+            'event_id' => 'required',  
             'order_status_id' => 'required',
             'date' => 'required',
-            'items' => 'required',
-            'name_client' => 'required'
+            'user_id' => 'required',       
         ];
     }
 
