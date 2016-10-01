@@ -31,8 +31,7 @@ class OrderRequest extends Request
             'items' => 'required',
             'event_id' => 'required',  
             'order_status_id' => 'required',
-            'date' => 'required',
-            'user_id' => 'required',       
+            'date' => 'required',    
         ];
     }
 
