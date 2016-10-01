@@ -126,6 +126,22 @@ class OrdersController extends Controller
         Order::destroy($id);
     }
 
+    public function aprobar(Request $request){
+
+    }
+
+    public function entregar(Request $request){
+
+    }
+    public function cancelar(Request $request){
+
+    }
+    public function rechazar(Request $request){
+
+    }
+    public function pendiente(Request $request){
+
+    }
     private function transformCollection($orders) {
     	return array_map([$this, 'transform'], $orders -> toArray());
     }
@@ -137,6 +153,7 @@ class OrdersController extends Controller
 			'event_name' => $one_order -> event -> name,
 			'order_status' => $one_order -> order_status -> name,
 			'date_in' => $one_order -> date,
+            'name_client' => $one_order -> name_client,
 			'comment' => $one_order -> comment,
 			'items' => $one_order -> items,
     	];
