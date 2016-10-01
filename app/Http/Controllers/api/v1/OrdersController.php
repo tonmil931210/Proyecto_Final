@@ -62,11 +62,15 @@ class OrdersController extends Controller
 
     public function store(OrderRequest $request) {
         log::info("entro a store order");
+        
         $status_code = 200;
         $message = '';
-        $input = $request -> only(['user_id', 'event_id', 'order_status_id', 'date', 'comments', 'name_client']);
+        $input = $request -> only(['event_id', 'order_status_id', 'date', 'comments', 'name_client']);
         log::info($input);
-        $order = Order::create($input);
+        log::info($request);
+        #$myVar = Request::instance()->query("user_id");
+
+        $order = Order::create($request -> toArray());
         if ($request -> items){
             foreach (json_decode($request -> items, true) as $item) {
                log::info($item);
