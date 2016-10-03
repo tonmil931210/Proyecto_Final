@@ -26,13 +26,29 @@ class OrderRequest extends Request
     public function rules()
     {
         log::info("entre orderRequest");
-        return [
-            'name_client' => 'required',
-            'items' => 'required',
-            'event_id' => 'required',  
-            'order_status_id' => 'required',
-            'date' => 'required',    
-        ];
+        switch($this->method())
+        {
+            case 'POST':
+                return [
+                    'name_client' => 'required',
+                    'items' => 'required',
+                    'event_id' => 'required',  
+                    'order_status_id' => 'required',
+                ];
+            case 'PUT':
+                return [
+                    'name_client' => 'required',
+                    'items' => 'required',
+                    'event_id' => 'required',
+                ];
+            case 'PATCH':
+                return [
+                    'name_client' => 'required',
+                    'items' => 'required',
+                    'event_id' => 'required',  
+                ];
+            default:break;   
+        }
     }
 
     protected function formatErrors(Validator $validator)

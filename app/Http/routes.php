@@ -27,5 +27,12 @@ Route::group(['prefix' => 'api/v1', 'namespace' => 'api\v1', 'middleware' => 'co
 	Route::get('/', 'TestsController@index');
 	Route::post('/login', 'SessionsController@login');
 	Route::delete('/logout', 'SessionsController@logout');
+	Route::post('orders/search', 'OrdersController@searchStatusOrder');
+	Route::post('orders/{orders}/aprobar', 'OrdersController@aprobar');
+	Route::post('orders/{orders}/entregar', 'OrdersController@entregar');
+	Route::post('orders/{orders}/cancelar', 'OrdersController@cancelar');
+	Route::post('orders/{orders}/rechazar', 'OrdersController@rechazar');
+	Route::post('orders/{orders}/pendiente', 'OrdersController@pendiente');
+
 });
 

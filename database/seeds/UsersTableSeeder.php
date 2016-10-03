@@ -79,7 +79,6 @@ class UsersTableSeeder extends Seeder
                 'event_id' => '1',
                 'order_status_id' => '1',
                 'user_id' => '1',
-                'date' => '1992-12-12',
                 'name_client' => 'milton',
             ]);
     }

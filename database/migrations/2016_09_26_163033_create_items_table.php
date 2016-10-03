@@ -18,6 +18,7 @@ class CreateItemsTable extends Migration
             $table -> string('name') -> unique();
             $table -> float('price');
             $table -> integer('number');
+            $table -> integer('number_on_hold');
             $table -> integer('reorder');
             $table -> integer('min_stock');
             $table -> timestamps();
