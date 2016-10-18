@@ -17,6 +17,7 @@ class CreateOrdersTable extends Migration
             $table -> integer('event_id');
             $table -> integer('order_status_id');
             $table -> integer('user_id');
+            $table -> String('type');
             $table -> String('name_client');
             $table -> text('comment');
             $table -> timestamps();

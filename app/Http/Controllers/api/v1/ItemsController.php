@@ -116,6 +116,7 @@ class ItemsController extends Controller
 			'name' => $item['name'],
 			'item_type_id' => $item['item_type_id'],
             'number' => $item['number'],
+            'number_on_hold' => $item['number_on_hold'],
             'price' => $item['price'],
             'reorder' => $item['number'],
             'min_stock' => $item['min_stock'],

@@ -80,6 +80,7 @@ class UsersTableSeeder extends Seeder
                 'order_status_id' => '1',
                 'user_id' => '1',
                 'name_client' => 'milton',
+                'type' => 'retornable'
             ]);
     }
 }

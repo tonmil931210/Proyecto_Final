@@ -31,6 +31,14 @@ class SessionRequest extends Request
         ];
     }
 
+    public function messages()
+    {
+        return [
+            'email.required' => 'A title is required',
+            'password.required'  => 'A message is required',
+        ];
+    }
+
     protected function formatErrors(Validator $validator)
     {
         return $validator->errors()->all();

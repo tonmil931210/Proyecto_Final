@@ -34,18 +34,21 @@ class OrderRequest extends Request
                     'items' => 'required',
                     'event_id' => 'required',  
                     'order_status_id' => 'required',
+                    'type' => 'required|in:retornable,consumible',
                 ];
             case 'PUT':
                 return [
                     'name_client' => 'required',
                     'items' => 'required',
                     'event_id' => 'required',
+                    'type' => 'required|in:retornable,consumible',
                 ];
             case 'PATCH':
                 return [
                     'name_client' => 'required',
                     'items' => 'required',
-                    'event_id' => 'required',  
+                    'event_id' => 'required',
+                    'type' => 'required|in:retornable,consumible',
                 ];
             default:break;   
         }
