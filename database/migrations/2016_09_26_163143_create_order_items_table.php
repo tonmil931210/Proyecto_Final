@@ -17,6 +17,8 @@ class CreateOrderItemsTable extends Migration
             $table -> integer('item_id');
             $table -> integer('order_id');
             $table -> integer('number');
+            $table -> integer('number_return')->default(0);
+            $table -> string('state')->default('pendiente');
             $table -> date('date');
             $table -> timestamps();
         });

@@ -17,7 +17,7 @@ use App\Retornable_order;
 use App\Consumer_order; 
 use App\Item;
 use App\Order_status;
-
+use Mail;
 class OrdersController extends Controller
 {
     public function __construct()
@@ -27,7 +27,7 @@ class OrdersController extends Controller
 
     public function index() {
         log::info("entro a index order");
-        $orders = Order::all();
+        $orders = Order::where('state', '=', 'no elimnado')->get();
         return Response() -> Json([
             'data' => [
                 'orders' => $this -> transformCollection($orders)
@@ -58,7 +58,6 @@ class OrdersController extends Controller
                     'message' => $message
                 ]
             ], $status_code);
-
     }
 
     public function store(OrderRequest $request) {
@@ -154,7 +153,9 @@ class OrdersController extends Controller
 
     public function destroy($id) {
         log::info("entro a destroy order");
-        Order::destroy($id);
+        $order = Order::find($id);
+        $order -> state = "eliminado";
+        $order -> save();
     }
 
     public function searchStatusOrder(Request $request){
@@ -187,6 +188,18 @@ class OrdersController extends Controller
             $status_code = 404;
             $message = 'problem with request (items)';
         }
+        log::info('aprobar');
+        $data = [];
+        Mail::send('emails.message', $data, function($message)
+       {
+           //asunto
+           $message->subject("test");
+ 
+           //receptor
+           $message->to("mcasanova@uninorte.edu.co");
+ 
+       });
+        log::info('aprobar2');
         return Response() -> Json([
                 'data' => [
                     'order' => $this -> transform($order),

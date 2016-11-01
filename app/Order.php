@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     protected $fillable = [
-        'user_id', 'event_id', 'order_status_id', 'date', 'commnet', 'name_client', 'type'
+        'user_id', 'event_id', 'order_status_id', 'date', 'commnet', 'name_client', 'type', 'state'
     ];
 
     protected $guarded = [
@@ -30,6 +30,6 @@ class Order extends Model
     }
 
     public function items(){
-        return $this->belongsToMany('App\Item', 'order_items', 'order_id', 'item_id')->withPivot('number', 'date');;
+        return $this->belongsToMany('App\Item', 'order_items', 'order_id', 'item_id')->withPivot('number', 'date', 'number_return', 'state');
     }
 }

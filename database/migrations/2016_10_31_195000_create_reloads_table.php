@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOrdersTable extends Migration
+class CreateReloadsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,15 +12,10 @@ class CreateOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('reloads', function (Blueprint $table) {
             $table -> increments('id');
-            $table -> integer('event_id');
-            $table -> integer('order_status_id');
-            $table -> integer('user_id');
-            $table -> String('type');
-            $table -> String('state');
-            $table -> String('name_client');
-            $table -> text('comment');
+            $table -> integer('item_id');
+            $table -> integer('number');
             $table -> timestamps();
         });
     }
@@ -33,7 +28,7 @@ class CreateOrdersTable extends Migration
     public function down()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('reloads');
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

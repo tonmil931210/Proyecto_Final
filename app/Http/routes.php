@@ -33,6 +33,8 @@ Route::group(['prefix' => 'api/v1', 'namespace' => 'api\v1', 'middleware' => 'co
 	Route::post('orders/{orders}/cancelar', 'OrdersController@cancelar');
 	Route::post('orders/{orders}/rechazar', 'OrdersController@rechazar');
 	Route::post('orders/{orders}/pendiente', 'OrdersController@pendiente');
+	Route::post('items/{items}/recarga', 'ReloadsController@recarga');
+	Route::post('orders/{orders}/devolucion', 'DevolutionsController@devolucion');
 
 });
 

@@ -73,6 +73,8 @@ class UsersTableSeeder extends Seeder
                 'item_id' => '1',
                 'order_id' => '1',
                 'number' => '2',
+                'number_return' => '0',
+                'state' => 'pendiente',
                 'date' => '1992-12-12',
             ]);
         Order::create([                
@@ -80,6 +82,7 @@ class UsersTableSeeder extends Seeder
                 'order_status_id' => '1',
                 'user_id' => '1',
                 'name_client' => 'milton',
+                'state' => 'no elimnado',
                 'type' => 'retornable'
             ]);
     }

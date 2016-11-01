@@ -4,27 +4,21 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Order_item extends Model
+class Reload extends Model
 {
     protected $fillable = [
-        'item_id', 'order_id', 'number', 'date', 'number_return', 'state'
+        'item_id', 'number'
     ];
 
     protected $guarded = [
         'id'
     ];
 
-    protected $table = 'order_items';
+    protected $table = 'reloads';
 
 
     public function item()
     {
         return $this->belongsTo('App\Item', 'item_id');
     }
-
-    public function order()
-    {
-        return $this->belongsTo('App\Order', 'order_id');
-    }
-
 }
