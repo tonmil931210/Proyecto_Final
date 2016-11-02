@@ -311,6 +311,7 @@ class OrdersController extends Controller
            $one_order = Order::find($order['id']);
             return [
                 'id' => $order['id'], 
+                'event_id' => $one_order -> event_id,
                 'event_name' => $one_order -> event -> name,
                 'order_status' => $one_order -> order_status -> name,
                 'date_in' => $one_order -> created_at->format('Y-m-d'),
