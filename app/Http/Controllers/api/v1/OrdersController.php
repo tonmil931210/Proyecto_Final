@@ -27,7 +27,7 @@ class OrdersController extends Controller
 
     public function index() {
         log::info("entro a index order");
-        $orders = Order::where('state', '=', 'no elimnado')->get();
+        $orders = Order::where('state', '=', 'no elimnado')->orderBy('created_at', 'desc')->get();
         return Response() -> Json([
             'data' => [
                 'orders' => $this -> transformCollection($orders)
