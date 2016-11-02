@@ -32,12 +32,7 @@ class EmailCommand extends Command
     {
         $order_items = Order_item::all();
         foreach ($order_items as $order_item) {
-            Order_item::create([                
-                'item_id' => $item['id'],
-                'order_id' => $order -> id,
-                'number' => $item['number'],
-                'date' => $item['date'],
-            ]);
+              
 
         }  
     }
