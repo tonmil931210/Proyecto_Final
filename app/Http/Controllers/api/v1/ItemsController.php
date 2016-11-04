@@ -59,6 +59,7 @@ class ItemsController extends Controller
         log::info("entro a store item");
         $status_code = 200;
         $message = '';
+        log::info($request);
         $input = $request -> only(['name', 'item_type_id', 'number', 'price', 'reorder', 'min_stock']);
         $item = Item::create($input);
         if (!$item) {
@@ -118,7 +119,7 @@ class ItemsController extends Controller
             'number' => $item['number'],
             'number_on_hold' => $item['number_on_hold'],
             'price' => $item['price'],
-            'reorder' => $item['number'],
+            'reorder' => $item['reorder'],
             'min_stock' => $item['min_stock'],
     	];
     }
