@@ -25,7 +25,7 @@ class DevolutionsController extends Controller
         	$status_code = 404;
             $message = 'problem with request';
         } else {
-        	$order_item->number_return = $order_item->number_retur + $request->number;
+        	$order_item->number_return = $order_item->number_return + $request->number;
         	if ($order_item->number < $order_item->number_return) {
         		$status_code = 404;
             	$message = 'problem with request';
