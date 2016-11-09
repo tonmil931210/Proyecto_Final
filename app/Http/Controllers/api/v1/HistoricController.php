@@ -19,7 +19,7 @@ class HistoricController extends Controller
 
     public function index() {
         log::info("entro a index historic");
-        $historic_all = Historic::all();
+        $historic_all = DB::select(DB::raw("SELECT C1.id, C1.name_item, C1.item_id, C1.created_at, C1.aprobado, C2.cancelado FROM (SELECT id, name_item, item_id, created_at,sum(number) as aprobado FROM historic WHERE type = 'aprobado' GROUP BY item_id) as C1 INNER JOIN (SELECT id, name_item, item_id, created_at,sum(number) as cancelado FROM historic WHERE (type = 'cancelado') GROUP BY item_id) as C2 ON C1.item_id = C2.item_id"));
         Log::info(json_encode($historic_all));
         return Response() -> Json([
                 'data' => [
