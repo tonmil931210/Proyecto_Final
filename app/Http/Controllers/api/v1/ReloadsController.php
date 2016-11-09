@@ -13,6 +13,11 @@ use Log;
 
 class ReloadsController extends Controller
 {
+    public function __construct()
+    {
+        $this -> middleware('isAdmin');
+    }
+
     public function recarga(ReloadRequest $request, $id){
     	$status_code = 200;
         $message = 'se recargo satisfactoriamente';

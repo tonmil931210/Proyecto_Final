@@ -22,6 +22,7 @@ class ItemsController extends Controller
     public function index() {
         log::info("entro a index item");
         $items = Item::all();
+        log::info($items);
         return Response() -> Json([
             'data' => [
                 'items' => $this -> transformCollection($items)
@@ -45,7 +46,7 @@ class ItemsController extends Controller
         }
 
         return Response() -> Json([
-                'data' => [
+                'data' => [ 
                     'previous' => $previous,
                     'next' => $next,
                     'item' => $this -> transform($item),

@@ -17,6 +17,7 @@ use App\Retornable_order;
 use App\Consumer_order; 
 use App\Item;
 use App\Order_status;
+use App\Historic;
 use Mail;
 class OrdersController extends Controller
 {
@@ -27,7 +28,7 @@ class OrdersController extends Controller
 
     public function index() {
         log::info("entro a index order");
-        $orders = Order::where('state', '=', 'no elimnado')->orderBy('created_at', 'desc')->get();
+        $orders = Order::all();
         return Response() -> Json([
             'data' => [
                 'orders' => $this -> transformCollection($orders)
@@ -153,9 +154,7 @@ class OrdersController extends Controller
 
     public function destroy($id) {
         log::info("entro a destroy order");
-        $order = Order::find($id);
-        $order -> state = "eliminado";
-        $order -> save();
+        $order = Order::destroy($id);
     }
 
     public function searchStatusOrder(Request $request){
@@ -219,6 +218,8 @@ class OrdersController extends Controller
         if (!$order) {
             $status_code = 404;
             $message = 'problem with request';
+        } else {
+            $this->addHistoric($order->items, 'aprobado');
         }
         return Response() -> Json([
                 'data' => [
@@ -239,6 +240,8 @@ class OrdersController extends Controller
         if (!$order) {
             $status_code = 404;
             $message = 'problem with request';
+        } else {
+           $this->addHistoric($order->items, 'cancelado');
         }
         return Response() -> Json([
                 'data' => [
@@ -393,5 +396,15 @@ class OrdersController extends Controller
             }
         }
         return $status;
+    }
+
+    private function addHistoric($items, $type){
+        Log::info("addHistoric");
+        foreach ($items as $item) {
+            Log::info($item);
+            Log::info($item->id);
+            Historic::create(['name_item' => $item->name, 'item_id' => $item->id, 'number' => $item->pivot->number, 'type' => $type]);
+           
+        }
     }
 }

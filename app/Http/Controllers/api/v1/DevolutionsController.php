@@ -15,6 +15,22 @@ use Log;
 
 class DevolutionsController extends Controller
 {
+    public function __construct()
+    {
+        $this -> middleware('isAdmin');
+    }
+
+    public function index() {
+        log::info("entro a index devolution");
+        $devolutions = Devolution::all();
+        return Response() -> Json([
+            'data' => [
+                'devolutions' => $this -> transformCollection($devolutions)
+            ]
+        ],200);
+    }
+
+
     public function devolucion(DevolutionRequest $request, $id){
     	$status_code = 200;
         $message = '';
@@ -53,4 +69,24 @@ class DevolutionsController extends Controller
                 ]
             ], $status_code);
     }
+
+    private function transformCollection($devolution) {
+        return array_map([$this, 'transform'], $devolution -> toArray());
+    }
+
+    private function transform($devolution) {
+        if ($devolution) {
+           $one_devolution = Devolution::find($devolution['id']);
+            return [
+                'id' => $devolution['id'], 
+                'order' => $one_devolution -> order,
+                'item' => $one_devolution -> item,
+                'date_in' => $one_devolution -> created_at->format('Y-m-d'),
+                'comment' => $one_devolution -> comment,
+                'number' => $one_devolution -> number,
+            ]; 
+        }
+        return '';
+    }
+
 }
