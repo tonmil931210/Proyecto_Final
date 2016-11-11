@@ -190,17 +190,6 @@ class OrdersController extends Controller
             $message = 'problem with request (items)';
         }
         log::info('aprobar');
-        $data = ['data' => 0];
-        Mail::send('emails.message', $data, function($message)
-       {
-           //asunto
-           $message->subject("test");
- 
-           //receptor
-           $message->to("mcasanova@uninorte.edu.co");
- 
-       });
-        log::info('aprobar2');
         return Response() -> Json([
                 'data' => [
                     'order' => $this -> transform($order),
@@ -236,7 +225,7 @@ class OrdersController extends Controller
         $order = Order::find($id);
         $order -> order_status_id = $statusOrder->id;
         $order -> save();
-         $this->addNumerOnHold($order, "less");
+        $this->addNumerOnHold($order, "less");
         $status_code = 200;
         $message = '';
         if (!$order) {
@@ -374,11 +363,16 @@ class OrdersController extends Controller
                     $one_item->number_on_hold =  $one_item->number_on_hold - $item['pivot']['number'];
                     $one_item->number =  $one_item->number - $item['pivot']['number'];
                     $one_item->save();
-                    if ($one_item->number - $one_item->min_stock <= 5){
-                        $data = $data + "-min stock" + $one_item->name + $one_item->id + "-" $one_item->number
+                    $this->updatePivot($order, $one_item, $item['pivot']['number']);
+                    if ($one_item->number <= $one_item->min_stock){
+                        $data = $data . "min stock" . $one_item->name . $one_item->id . "-" . $one_item->number . "-";
+                        log::info("INFORMACION PARA EL CORREO - min stock");
+                        log::info($data);
                     } else {
-                        if ($one_item->number - $one_item->reorder <= 5){
-                            $data = $data + "-reorder" + $one_item->name + $one_item->id + "-" $one_item->number
+                        if ($one_item->number <= $one_item->reorder){
+                            $data = $data . "reorder" . $one_item->name . $one_item->id . "-" . $one_item->number . "-";
+                            log::info("INFORMACION PARA EL CORREO - reorder");
+                            log::info($data);
                         } 
                     }
                 } else {
@@ -388,6 +382,9 @@ class OrdersController extends Controller
             }
             
         }
+        log::info("INFORMACION PARA EL CORREO");
+        log::info($data);
+        $this->sendEmail($data, "");
         return $value;
     }
 
@@ -416,5 +413,29 @@ class OrdersController extends Controller
             Historic::create(['name_item' => $item->name, 'item_id' => $item->id, 'number' => $item->pivot->number, 'type' => $type]);
            
         }
+    }
+
+    private function sendEmail($body, $email){
+        if ($body <> ""){
+            $message = ['data' => $body];
+            Mail::send('emails.message', $message, function($message)
+           {
+               //asunto
+               $message->subject("test");
+     
+               //receptor
+               $message->to("mcasanova@uninorte.edu.co");
+     
+           });
+        }  
+    }
+
+    private function updatePivot($order, $item, $number_return){
+        $order_item = Order_item::where('item_id', '=', $item->id)->where('order_id', '=', $order->id)->first();    
+        $order_item->number_return = $number_return;
+        if ($number_return = $order_item->number) {
+             $order_item->state = "entregado";
+        }
+        $order_item->save();
     }
 }
