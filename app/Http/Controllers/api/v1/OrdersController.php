@@ -182,13 +182,15 @@ class OrdersController extends Controller
             if (!$order) {
                 $status_code = 404;
                 $message = 'problem with request';
+            } else {
+                $this->addHistoric($order->items, 'aprobado');
             }
         } else {
             $status_code = 404;
             $message = 'problem with request (items)';
         }
         log::info('aprobar');
-        $data = [];
+        $data = ['data' => 0];
         Mail::send('emails.message', $data, function($message)
        {
            //asunto
@@ -219,7 +221,7 @@ class OrdersController extends Controller
             $status_code = 404;
             $message = 'problem with request';
         } else {
-            $this->addHistoric($order->items, 'aprobado');
+            $this->addHistoric($order->items, 'entregado');
         }
         return Response() -> Json([
                 'data' => [
@@ -351,6 +353,7 @@ class OrdersController extends Controller
 
     private function addNumerOnHold($order, $type = "add") {
         log::info("addnumber");
+        $data = "";
         $value = true;
         $items = $order->items;
         foreach ($items as $item) {
@@ -371,6 +374,13 @@ class OrdersController extends Controller
                     $one_item->number_on_hold =  $one_item->number_on_hold - $item['pivot']['number'];
                     $one_item->number =  $one_item->number - $item['pivot']['number'];
                     $one_item->save();
+                    if ($one_item->number - $one_item->min_stock <= 5){
+                        $data = $data + "-min stock" + $one_item->name + $one_item->id + "-" $one_item->number
+                    } else {
+                        if ($one_item->number - $one_item->reorder <= 5){
+                            $data = $data + "-reorder" + $one_item->name + $one_item->id + "-" $one_item->number
+                        } 
+                    }
                 } else {
                     $one_item->number_on_hold =  $one_item->number_on_hold - $item['pivot']['number'];
                     $one_item->save();
