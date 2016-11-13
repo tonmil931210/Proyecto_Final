@@ -363,14 +363,13 @@ class OrdersController extends Controller
                     $one_item->number_on_hold =  $one_item->number_on_hold - $item['pivot']['number'];
                     $one_item->number =  $one_item->number - $item['pivot']['number'];
                     $one_item->save();
-                    $this->updatePivot($order, $one_item, $item['pivot']['number']);
                     if ($one_item->number <= $one_item->min_stock){
-                        $data = $data . "min stock" . $one_item->name . $one_item->id . "-" . $one_item->number . "-";
+                        $data = $data . "min stock  -  " . $one_item->name . "  -  " . $one_item->id . "  -  " . $one_item->number . "\n";
                         log::info("INFORMACION PARA EL CORREO - min stock");
                         log::info($data);
                     } else {
                         if ($one_item->number <= $one_item->reorder){
-                            $data = $data . "reorder" . $one_item->name . $one_item->id . "-" . $one_item->number . "-";
+                            $data = $data . "reorder  -  " . $one_item->name . "  -  " . $one_item->id . "  -  " . $one_item->number . "\n";
                             log::info("INFORMACION PARA EL CORREO - reorder");
                             log::info($data);
                         } 
@@ -428,14 +427,5 @@ class OrdersController extends Controller
      
            });
         }  
-    }
-
-    private function updatePivot($order, $item, $number_return){
-        $order_item = Order_item::where('item_id', '=', $item->id)->where('order_id', '=', $order->id)->first();    
-        $order_item->number_return = $number_return;
-        if ($number_return = $order_item->number) {
-             $order_item->state = "entregado";
-        }
-        $order_item->save();
     }
 }

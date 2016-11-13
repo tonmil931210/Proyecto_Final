@@ -35,6 +35,7 @@ Route::group(['prefix' => 'api/v1', 'namespace' => 'api\v1', 'middleware' => 'co
 	Route::post('orders/{orders}/pendiente', 'OrdersController@pendiente');
 	Route::post('items/{items}/recarga', 'ReloadsController@recarga');
 	Route::post('orders/{orders}/devolucion', 'DevolutionsController@devolucion');
+	Route::post('orders/{orders}/devolucionTodo', 'DevolutionsController@devolucion_todo');
 	Route::get('devoluciones', 'DevolutionsController@index');
 	Route::get('historic', 'HistoricController@index');
 	Route::post('historic/search', 'HistoricController@search');

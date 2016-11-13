@@ -70,6 +70,45 @@ class DevolutionsController extends Controller
             ], $status_code);
     }
 
+    public function devolucion_todo(Request $request, $id){
+        $status_code = 200;
+        $message = '';
+        $comment = '';
+        log::info("entro a Devolution");
+        $order = Order::find($id);
+        $items = $order -> items;
+        foreach ($items as $one_item){
+            $order_item = Order_item::where('item_id', '=', $one_item->id)->where('order_id', '=', $id)->first();
+            $order_item->number_return = $order_item->number_return + $order_item->number;
+            if ($order_item->number < $order_item->number_return) {
+                $status_code = 404;
+                $message = 'problem with request';
+            } else {
+                if ($request -> comment) {
+                   $comment = $request -> comment;
+                }
+                Devolution::create([                
+                            'item_id' => $one_item->id,
+                            'order_id' => $id,
+                            'number' => $order_item->number,
+                            'comment' => $comment,
+                        ]);
+                if ($order_item->number == $order_item->number_return) {
+                    $order_item->state = "entregado";
+                    $message = 'Exitoso';
+                }
+                $order_item->save();
+                }
+                
+            
+        }
+        return Response() -> Json([
+                'data' => [
+                    'message' => $message,
+                ]
+            ], $status_code);
+    }
+
     private function transformCollection($devolution) {
         return array_map([$this, 'transform'], $devolution -> toArray());
     }
