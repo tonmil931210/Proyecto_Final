@@ -22,6 +22,24 @@ class UsersTableSeeder extends Seeder
                 'password' =>123456,
                 'type' => 'admin'
             ]);
+        User::create([                
+                'name' => 'gerente',
+                'email' =>'mcasanova@uninorte.edu.co',
+                'password' =>123456,
+                'type' => 'gerente'
+            ]);
+       User::create([                
+                'name' => 'director',
+                'email' =>'milton931210@gmail.com',
+                'password' =>123456,
+                'type' => 'director'
+            ]);
+       User::create([                
+                'name' => 'bodega',
+                'email' =>'tonmil.sorkerf@gmail.com',
+                'password' =>123456,
+                'type' => 'bodega'
+            ]);
         Item_type::create([                
                 'name' => 'Retornable'
             ]);

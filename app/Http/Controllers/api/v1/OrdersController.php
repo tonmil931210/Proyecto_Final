@@ -12,6 +12,7 @@ use Log;
 use Illuminate\Http\Response;
 use \Illuminate\Support\Collection;
 use App\Order;
+use App\User;
 use App\Order_item;
 use App\Retornable_order;
 use App\Consumer_order; 
@@ -223,16 +224,22 @@ class OrdersController extends Controller
     public function cancelar($id){
         $statusOrder = Order_status::where('name', '=', 'Cancelado')->first();
         $order = Order::find($id);
+        $status_order = $order->order_status->name;
         $order -> order_status_id = $statusOrder->id;
         $order -> save();
-        $this->addNumerOnHold($order, "less");
+        if (!($status_order = "Pendiente")){
+            $this->addNumerOnHold($order, "less");
+        }
+        
         $status_code = 200;
         $message = '';
         if (!$order) {
             $status_code = 404;
             $message = 'problem with request';
         } else {
-           $this->addHistoric($order->items, 'cancelado');
+            if (!($status_order = "Pendiente")){
+                $this->addHistoric($order->items, 'cancelado');
+            }    
         }
         return Response() -> Json([
                 'data' => [
@@ -381,9 +388,12 @@ class OrdersController extends Controller
             }
             
         }
-        log::info("INFORMACION PARA EL CORREO");
-        log::info($data);
-        $this->sendEmail($data, "");
+        if ($type = "add"){
+            log::info("INFORMACION PARA EL CORREO");
+            log::info($data);
+            $this->sendEmail($data, ""); 
+        }
+        
         return $value;
     }
 
@@ -415,17 +425,26 @@ class OrdersController extends Controller
     }
 
     private function sendEmail($body, $email){
+        Log::info("send email");
         if ($body <> ""){
-            $message = ['data' => $body];
-            Mail::send('emails.message', $message, function($message)
-           {
-               //asunto
-               $message->subject("test");
-     
-               //receptor
-               $message->to("mcasanova@uninorte.edu.co");
-     
-           });
+            $users = User::whereIn('type', ['gerente','director', 'bodega'])->get();
+            Log::info($users);
+            if ($users){
+                foreach ($users as $user) {
+                    $message = ['data' => $body];
+                    Mail::send('emails.message', $message, function($message) use ($user)
+                   {
+                       //asunto
+                       $message->subject("sin asunto");
+             
+                       //receptor
+                       $message->to($user -> email);
+             
+                   });
+                }  
+            }
+            
+            
         }  
     }
 }
