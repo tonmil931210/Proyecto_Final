@@ -22,7 +22,7 @@ class IsAdmin
         $token = Token::where('token', $token_key) -> get() -> first();
         if ($token) {
             $type = $token -> user -> type;
-            if ($type == 'admin' or $type == 'admin' or $type == 'gerente' or $type == 'asesor' or $type == 'bodega' or $type == 'director') {
+            if ($type == 'admin' or $type == 'admin' or $type == 'asistente' or $type == 'asesor' or $type == 'bodega' or $type == 'director') {
                 $request->merge(array("user_id" =>  $token -> user -> id));
                 log::info($request);
                 log::info($token -> user -> id);
