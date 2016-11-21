@@ -60,7 +60,9 @@ class DevolutionsController extends Controller
 	        		$message = 'Exitoso';
 	        	}
 	        	$order_item->save();
+                log::info($request -> item_id);
                 $item = Item::find($request -> item_id);
+                log::info($item);
                 $item -> number = $item -> number + $request->number;
                 $item -> save();
         	}
@@ -82,7 +84,8 @@ class DevolutionsController extends Controller
         $items = $order -> items;
         foreach ($items as $one_item){
             $order_item = Order_item::where('item_id', '=', $one_item->id)->where('order_id', '=', $id)->first();
-            $order_item->number_return = $order_item->number_return + $order_item->number;
+            $number = ($order_item->number - $order_item->number_return);
+            $order_item->number_return = $order_item->number_return + $number;
             if ($order_item->number < $order_item->number_return) {
                 $status_code = 404;
                 $message = 'problem with request';
@@ -93,7 +96,7 @@ class DevolutionsController extends Controller
                 Devolution::create([                
                             'item_id' => $one_item->id,
                             'order_id' => $id,
-                            'number' => $order_item->number,
+                            'number' => $number,
                             'comment' => $comment,
                         ]);
                 if ($order_item->number == $order_item->number_return) {
@@ -101,10 +104,14 @@ class DevolutionsController extends Controller
                     $message = 'Exitoso';
                 }
                 $order_item->save();
-                log::info($request -> item_id);
                 $item = Item::find($one_item->id);
+                log::info("ITEMS");
                 log::info($item);
-                $item -> number = $item -> number + $request->number;
+                log::info("ORDER ITEM NUMBER");
+                log::info($order_item->number);
+                log::info("ORDER ITEM NUMBER RETURN");
+                log::info($order_item->number_return);
+                $item -> number = $item -> number + $number;
                 $item -> save();
             }     
             
