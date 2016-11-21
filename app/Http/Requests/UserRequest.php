@@ -36,19 +36,19 @@ class UserRequest extends Request
                     'name' => 'required',
                     'password' => 'required',
                     'email' => 'required|unique:users,email',
-                    'type' => "required|in:admin,gerente,asesor,bodega,director",
+                    'type' => "required|in:admin,asistente,asesor,bodega,director",
                 ];
             case 'PUT':
                 return [
                     'name' => 'required',
                     'email' => "required|unique:users,email,$user->id",
-                    'type' => "required|in:admin,gerente,asesor,bodega,director",
+                    'type' => "required|in:admin,asistente,asesor,bodega,director",
                 ];
             case 'PATCH':
                 return [
                     'name' => 'required',
                     'email' => "required|unique:users,email,$user->id",
-                    'type' => "required|in:admin,gerente,asesor,bodega, director",
+                    'type' => "required|in:admin,asistente,asesor,bodega, director",
                 ];
             default:break;   
         }
