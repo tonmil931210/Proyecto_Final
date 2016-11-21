@@ -21,6 +21,7 @@ class CreateItemsTable extends Migration
             $table -> integer('number_on_hold')->default(0);
             $table -> integer('reorder');
             $table -> integer('min_stock');
+            $table -> string('state')->default('no eliminado');
             $table -> timestamps();
         });
     }

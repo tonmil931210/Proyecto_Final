@@ -20,6 +20,7 @@ class CreateOrdersTable extends Migration
             $table -> String('type');
             $table -> String('name_client');
             $table -> text('comment');
+            $table -> string('state')->default('no eliminado');
             $table -> timestamps();
         });
     }

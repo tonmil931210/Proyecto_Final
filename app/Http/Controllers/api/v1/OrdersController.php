@@ -29,7 +29,7 @@ class OrdersController extends Controller
 
     public function index() {
         log::info("entro a index order");
-        $orders = Order::all();
+        $orders = Order::where('state', '=', 'no eliminado');
         return Response() -> Json([
             'data' => [
                 'orders' => $this -> transformCollection($orders)
@@ -157,7 +157,9 @@ class OrdersController extends Controller
 
     public function destroy($id) {
         log::info("entro a destroy order");
-        $order = Order::destroy($id);
+        $order = Order::find($id);
+        $order -> state = 'eliminado';
+        $order->save();
     }
 
     public function searchStatusOrder(Request $request){

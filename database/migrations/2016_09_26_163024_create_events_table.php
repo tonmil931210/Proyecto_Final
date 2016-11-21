@@ -21,6 +21,7 @@ class CreateEventsTable extends Migration
             $table -> time('finish_time');
             $table -> string('location');
             $table -> string('place');
+            $table -> string('state')->default('no eliminado');
             $table -> timestamps();
         });
     }

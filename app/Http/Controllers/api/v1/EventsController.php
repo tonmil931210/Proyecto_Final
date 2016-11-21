@@ -21,7 +21,7 @@ class EventsController extends Controller
 
     public function index() {
         log::info("entro a index event");
-        $events = Event::all();
+        $events = Event::where('state', '=', 'no eliminado');
         return Response() -> Json([
             'data' => [
                 'Events' => $this -> transformCollection($events)
@@ -100,7 +100,9 @@ class EventsController extends Controller
 
     public function destroy($id) {
         log::info("entro a destroy event");
-        $event = Event::destroy($id);
+        $event = Event::find($id);
+        $event -> state = 'eliminado';
+        $event->save();
         if ($event) {
             return Response() -> Json(['message' => 'ok'], 200);
         }

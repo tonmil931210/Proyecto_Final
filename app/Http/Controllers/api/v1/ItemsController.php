@@ -21,7 +21,7 @@ class ItemsController extends Controller
 
     public function index() {
         log::info("entro a index item");
-        $items = Item::all();
+        $items = Item::where('state', '=', 'no eliminado');
         log::info($items);
         return Response() -> Json([
             'data' => [
@@ -101,7 +101,9 @@ class ItemsController extends Controller
 
     public function destroy($id) {
         log::info("entro a destroy item");
-        $item = Item::destroy($id);
+        $item = Item::find($id);
+        $item -> state = 'eliminado';
+        $item->save();
         if ($item) {
             return Response() -> Json(['message' => 'ok'], 200);
         }
