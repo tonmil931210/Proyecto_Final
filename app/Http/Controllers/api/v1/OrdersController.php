@@ -70,6 +70,8 @@ class OrdersController extends Controller
         $order = false;
         if ($this->verifyItems($request -> items)) {
             $order = Order::create($request -> toArray());
+            $order -> comment = $request -> comment;
+            $order->save();
             if ($request -> items){
                 foreach (json_decode($request -> items, true) as $item) {
                    Order_item::create([                

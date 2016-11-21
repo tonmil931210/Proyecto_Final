@@ -28,13 +28,13 @@ class UsersTableSeeder extends Seeder
                 'password' =>123456,
                 'type' => 'gerente'
             ]);
-       User::create([                
+        User::create([                
                 'name' => 'director',
                 'email' =>'milton931210@gmail.com',
                 'password' =>123456,
                 'type' => 'director'
             ]);
-       User::create([                
+        User::create([                
                 'name' => 'bodega',
                 'email' =>'tonmil.sorkerf@gmail.com',
                 'password' =>123456,
@@ -61,7 +61,6 @@ class UsersTableSeeder extends Seeder
         Order_status::create([                
                 'name' => 'Cancelado'
             ]);
-
         Event::create([                
                 'name' => 'Feria pop',
                 'start_date' => '2016-09-27',
@@ -70,37 +69,6 @@ class UsersTableSeeder extends Seeder
                 'finish_time' => '6:30:00',
                 'location' => 'Kilometro 5',
                 'place' => 'Uninorte'
-            ]);
-        Item::create([                
-                'name' => 'libreta',
-                'price' => '1000',
-                'item_type_id' => '1',
-                'number' => '30',
-                'reorder' => '10',
-                'min_stock' => '5',
-            ]);
-        Item::create([                
-                'name' => 'pañoleta',
-                'price' => '999',
-                'item_type_id' => '2',
-                'number' => '50',
-                'reorder' => '15',
-                'min_stock' => '10',
-            ]);
-        Order_item::create([                
-                'item_id' => '1',
-                'order_id' => '1',
-                'number' => '2',
-                'number_return' => '0',
-                'state' => 'pendiente',
-                'date' => '1992-12-12',
-            ]);
-        Order::create([                
-                'event_id' => '1',
-                'order_status_id' => '1',
-                'user_id' => '1',
-                'name_client' => 'milton',
-                'type' => 'retornable'
             ]);
     }
 }
