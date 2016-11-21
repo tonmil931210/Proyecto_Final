@@ -53,6 +53,16 @@ class OrderRequest extends Request
             default:break;   
         }
     }
+    public function messages()
+    {
+        return [
+            'name_client.required' => 'El nombre del cliente es un campo obligatorio',
+            'items.required'  => 'Los articulos son un campo obligatorio',
+            'event_id.required' => 'El ID del evento es un campo obligatorio',
+            'order_status_id.required'  => 'El ID del estado de la orden es un campo obligatorio',
+            'type.required' => 'El Tipo de la orden es un campo obligatorio',
+        ];
+    }
 
     protected function formatErrors(Validator $validator)
     {

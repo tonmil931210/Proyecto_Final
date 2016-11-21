@@ -31,6 +31,13 @@ class ReloadRequest extends Request
         ];
     }
 
+    public function messages()
+    {
+        return [
+            'number.required' => 'El numero es un campo obligatorio',
+        ];
+    }
+
     protected function formatErrors(Validator $validator)
     {
         return $validator->errors()->all();

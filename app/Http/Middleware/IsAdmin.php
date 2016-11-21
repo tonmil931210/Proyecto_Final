@@ -29,7 +29,7 @@ class IsAdmin
                 return $next($request);
             }     
         }
-        return Response() -> Json(['message' => 'error'], 400);
+        return Response() -> Json(['message' => 'No estas autorizado para esta accion'], 401);
         
     }
 }

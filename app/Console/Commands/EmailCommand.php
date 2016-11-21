@@ -32,7 +32,7 @@ class EmailCommand extends Command
      */
     public function handle()
     {
-        $data = 0;
+        $body = "";
         $date = Carbon::now();
         $order_items = Order_item::all();
         log::info("entro a email send");
@@ -40,18 +40,28 @@ class EmailCommand extends Command
         foreach ($order_items as $order_item) {
             log::info($order_item['date']);
             if(Carbon::parse($order_item['date'])->diffInDays() <= 1){
-                $data = $data + 1;
+                $body = $body . "Order ID: " . $Order_item->order->id . "-- Item ID: " . $Order_item->item->id . "\n  ";
             }
-        }  
-        $all_data = array('data' => $data);
-        Mail::send('emails.message', $all_data, function($message)
-       {
-           //asunto
-           $message->subject("test");
- 
-           //receptor
-           $message->to("mcasanova@uninorte.edu.co");
- 
-       });
+        }
+        if ($body <> ""){
+            $users = User::whereIn('type', ['asistente','director', 'bodega'])->get();
+            Log::info($users);
+            if ($users){
+                foreach ($users as $user) {
+                    $message = ['data' => $body];
+                    Mail::send('emails.message', $message, function($message) use ($user)
+                   {
+                       //asunto
+                       $message->subject("sin asunto");
+             
+                       //receptor
+                       $message->to($user -> email);
+             
+                   });
+                }  
+            }
+            
+            
+        }
     }
 }

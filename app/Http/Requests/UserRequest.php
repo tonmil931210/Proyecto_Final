@@ -54,6 +54,16 @@ class UserRequest extends Request
         }
     }
 
+    public function messages()
+    {
+        return [
+            'email.required' => 'El correo es un campo obligatorio',
+            'password.required'  => 'La contraseña es un campo obligatorio',
+            'type.required' => 'El tipo de usuario es un campo obligatorio',
+            'name.required'  => 'El nombre es un campo obligatorio',
+        ];
+    }
+
     protected function formatErrors(Validator $validator)
     {
         return $validator->errors()->all();

@@ -33,7 +33,7 @@ class EventsController extends Controller
         log::info("entro a show event");
         $event = Event::find($id);
         $status_code = 200;
-        $message = '';
+        $message = 'Todo ocurrió satisfactoriamente';
         $previous = '';
         $next = '';
         if ($event) {
@@ -41,7 +41,7 @@ class EventsController extends Controller
             $next = $this -> SearchingIds($event, '>');
         } else {
             $status_code = 404;
-            $message = 'User does not found';
+            $message = 'No se encontró el evento';
         }
 
         return Response() -> Json([
@@ -58,12 +58,12 @@ class EventsController extends Controller
     public function store(EventRequest $request) {
         log::info("entro a store event");
         $status_code = 200;
-        $message = '';
+        $message = 'Todo ocurrió satisfactoriamente';
         $input = $request -> only(['name', 'start_date', 'finish_date', 'start_time', 'finish_time', 'location', 'place']);
         $event = Event::create($input);
         if (!$event) {
-            $status_code = 404;
-            $message = 'problem with create event';
+            $status_code = 400;
+            $message = 'No se puedo crear el evento';
         }
         return Response() -> Json([
                     'data' => [
@@ -76,7 +76,7 @@ class EventsController extends Controller
     public function update(EventRequest $request, $id) {
         log::info("entro a update event");
         $status_code = 200;
-        $message = '';
+        $message = 'Todo ocurrió satisfactoriamente';
         $event = Event::find($id);
         $event -> name = $request -> name;
         $event -> start_date = $request -> start_date;
@@ -88,7 +88,7 @@ class EventsController extends Controller
         $event -> save();
         if (!$event) {
             $status_code = 404;
-            $message = 'problem with update event';
+            $message = 'No se puedo actualizar el evento';
         }
         return Response() -> Json([
                 'data' => [
@@ -104,9 +104,9 @@ class EventsController extends Controller
         $event -> state = 'eliminado';
         $event->save();
         if ($event) {
-            return Response() -> Json(['message' => 'ok'], 200);
+            return Response() -> Json(['message' => 'Todo ocurrió satisfactoriamente'], 200);
         }
-        return Response() -> Json(['message' => 'error'], 400);
+        return Response() -> Json(['message' => 'Error al borrar el evento'], 400);
     }
 
     private function transformCollection($events) {

@@ -35,15 +35,15 @@ class UsersController extends Controller
         log::info("entro a show user");
         $user = User::find($id);
         $status_code = 200;
-        $message = '';
+        $message = 'Todo ocurrió satisfactoriamente';
         $previous = '';
         $next = '';
         if ($user) {
             $previous = $this -> SearchingIds($user);
             $next = $this -> SearchingIds($user, '>');
         } else {
-            $status_code = 404;
-            $message = 'User does not found';
+            $status_code = 400;
+            $message = 'No se encontro el usuario';
         }
 
         return Response() -> Json([
@@ -60,13 +60,13 @@ class UsersController extends Controller
     public function store(UserRequest $request) {
         log::info("entro a store user");
         $status_code = 200;
-        $message = '';
+        $message = 'Todo ocurrió satisfactoriamente';
         $input = $request -> only(['name', 'email', 'password', 'type']);
         log::info($input);
         $user = User::create($input);
         if (!$user) {
-            $status_code = 404;
-            $message = 'problem with create user';
+            $status_code = 400;
+            $message = 'Problemas con guardar un usuario';
         }
         return Response() -> Json([
                     'data' => [
@@ -79,7 +79,7 @@ class UsersController extends Controller
     public function update(UserRequest $request, $id) {
         log::info("entro a update user");
         $status_code = 200;
-        $message = '';
+        $message = 'Todo ocurrió satisfactoriamente';
         $user = User::find($id);
         $user -> name = $request -> name;
         $user -> email = $request -> email;
@@ -89,8 +89,8 @@ class UsersController extends Controller
         $user -> type = $request -> type;
         $user -> save();
         if (!$user) {
-            $status_code = 404;
-            $message = 'problem with update user';
+            $status_code = 400;
+            $message = 'Problemas con actualizar el usuario';
         }
         return Response() -> Json([
                 'data' => [
@@ -104,9 +104,9 @@ class UsersController extends Controller
         log::info("entro a destroy user");
         $user = User::destroy($id);
         if ($user) {
-            return Response() -> Json(['message' => 'ok'], 200);
+            return Response() -> Json(['message' => 'Todo ocurrió satisfactoriamente'], 200);
         }
-        return Response() -> Json(['message' => 'error'], 400);
+        return Response() -> Json(['message' => 'Error al eliminar un usuario'], 400);
     }
 
     private function transformCollection($users) {

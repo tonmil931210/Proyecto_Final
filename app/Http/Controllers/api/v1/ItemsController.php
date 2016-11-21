@@ -34,7 +34,7 @@ class ItemsController extends Controller
         log::info("entro a show item");
         $item = Item::find($id);
         $status_code = 200;
-        $message = '';
+        $message = 'Todo ocurrió satisfactoriamente';
         $previous = '';
         $next = '';
         if ($item) {
@@ -42,7 +42,7 @@ class ItemsController extends Controller
             $next = $this -> SearchingIds($item, '>');
         } else {
             $status_code = 404;
-            $message = 'item does not found';
+            $message = 'No se encontró el artículo';
         }
 
         return Response() -> Json([
@@ -59,13 +59,13 @@ class ItemsController extends Controller
     public function store(itemRequest $request) {
         log::info("entro a store item");
         $status_code = 200;
-        $message = '';
+        $message = 'Todo ocurrió satisfactoriamente';
         log::info($request);
         $input = $request -> only(['name', 'item_type_id', 'number', 'price', 'reorder', 'min_stock']);
         $item = Item::create($input);
         if (!$item) {
-            $status_code = 404;
-            $message = 'problem with create item';
+            $status_code = 400;
+            $message = 'Problemas para crear un artículo';
         }
         return Response() -> Json([
                     'data' => [
@@ -78,7 +78,7 @@ class ItemsController extends Controller
     public function update(itemRequest $request, $id) {
         log::info("entro a update item");
         $status_code = 200;
-        $message = '';
+        $message = 'Todo ocurrió satisfactoriamente';
         $item = Item::find($id);
         $item -> name = $request -> name;
         $item -> item_type_id = $request -> item_type_id;
@@ -88,8 +88,8 @@ class ItemsController extends Controller
         $item -> min_stock = $request -> min_stock;
         $item -> save();
         if (!$item) {
-            $status_code = 404;
-            $message = 'problem with update item';
+            $status_code = 400;
+            $message = 'problemas para actualizar un artículo';
         }
         return Response() -> Json([
                 'data' => [
@@ -105,9 +105,9 @@ class ItemsController extends Controller
         $item -> state = 'eliminado';
         $item->save();
         if ($item) {
-            return Response() -> Json(['message' => 'ok'], 200);
+            return Response() -> Json(['message' => 'Todo ocurrió satisfactoriamente'], 200);
         }
-        return Response() -> Json(['message' => 'error'], 400);
+        return Response() -> Json(['message' => 'Error al eliminar un artículo'], 400);
     }
 
     private function transformCollection($items) {

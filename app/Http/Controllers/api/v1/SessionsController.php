@@ -33,10 +33,10 @@ class SessionsController extends Controller
                 Token::create(['token' => $token, 'user_id' => $id]);
                 return Response() -> Json(['message' => 'successful', 'token' => $token, 'type' => $user -> type], 200) -> header('Authorization', $token);
             } else {
-                return Response() -> Json(['message' => 'error'], 400);
+                return Response() -> Json(['message' => 'El usuario o contraseña son incorrectas'], 400);
             } 
         } else {
-            return Response() -> Json(['message' => 'error'], 400);
+            return Response() -> Json(['message' => 'El usuario o contraseña son incorrectas'], 400);
         }
     	
 
@@ -48,9 +48,9 @@ class SessionsController extends Controller
     	$user = Token::where('token', $token_key) -> get() -> first();
     	if ($user) {
     		Token::destroy($user -> id);
-    		return Response() -> Json(['message' => 'ok'], 200);
+    		return Response() -> Json(['message' => 'Todo ocurrió satisfactoriamente'], 200);
     	} else {
-    		return Response() -> Json(['message' => 'error'], 400);
+    		return Response() -> Json(['message' => 'Error al cerrar sesión'], 400);
     	}
     	
 

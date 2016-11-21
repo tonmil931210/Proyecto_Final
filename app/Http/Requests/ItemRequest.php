@@ -62,6 +62,18 @@ class ItemRequest extends Request
         }
     }
 
+    public function messages()
+    {
+        return [
+            'name.required' => 'El nombre es un campo obligatorio',
+            'price.required'  => 'El precio es un campo obligatorio',
+            'item_type_id.required' => 'El ID del tipo de artículo es un campo obligatorio',
+            'number.required'  => 'El numero es un campo obligatorio',
+            'reorder.required' => 'El reorder es un campo obligatorio',
+            'min_stock.required' => 'El min-stock es un campo obligatorio',
+        ];
+    }
+
     protected function formatErrors(Validator $validator)
     {
         return $validator->errors()->all();

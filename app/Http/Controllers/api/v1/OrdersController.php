@@ -41,7 +41,7 @@ class OrdersController extends Controller
         log::info("entro a show order");
         $order = Order::find($id);
         $status_code = 200;
-        $message = '';
+        $message = 'Todo ocurrió satisfactoriamente';
         $previous = '';
         $next = '';
         if ($order) {
@@ -49,7 +49,7 @@ class OrdersController extends Controller
             $next = $this -> searchingIds($order, '>');
         } else {
             $status_code = 404;
-            $message = 'order does not found';
+            $message = 'No se encontró el pedido';
         }
 
         return Response() -> Json([
@@ -64,32 +64,33 @@ class OrdersController extends Controller
 
     public function store(OrderRequest $request) {
         $status_code = 200;
-        $message = '';
+        $message = 'Todo ocurrió satisfactoriamente';
         log::info("entro a store order");
-        log::info($request);
         $order = false;
         if ($this->verifyItems($request -> items)) {
             $order = Order::create($request -> toArray());
             $order -> comment = $request -> comment;
             $order->save();
-            if ($request -> items){
-                foreach (json_decode($request -> items, true) as $item) {
-                   Order_item::create([                
-                        'item_id' => $item['id'],
-                        'order_id' => $order -> id,
-                        'number' => $item['number'],
-                        'date' => $item['date'],
-                    ]);
-
-                }
-            }
             if (!$order) {
-                $status_code = 404;
-                $message = 'problem with request';
+                $status_code = 400;
+                $message = 'No se pudo crear el pedido';
+            }else {
+                if ($request -> items){
+                    foreach (json_decode($request -> items, true) as $item) {
+                       Order_item::create([                
+                            'item_id' => $item['id'],
+                            'order_id' => $order -> id,
+                            'number' => $item['number'],
+                            'date' => $item['date'],
+                        ]);
+
+                    }
+                } 
             }
+               
         } else {
-            $status_code = 404;
-            $message = 'problem with request (items)';
+            $status_code = 400;
+            $message = 'Error en los artículos enviados';
         }
         return Response() -> Json([
                 'data' => [
@@ -142,10 +143,10 @@ class OrdersController extends Controller
         }
         $order -> save();
         $status_code = 200;
-        $message = '';
+        $message = 'Todo ocurrió satisfactoriamente';
         if (!$order) {
-            $status_code = 404;
-            $message = 'problem with request';
+            $status_code = 400;
+            $message = 'No se pudo actualizar el pedido';
         }
         return Response() -> Json([
                 'data' => [
@@ -160,11 +161,14 @@ class OrdersController extends Controller
         $order = Order::find($id);
         $order -> state = 'eliminado';
         $order->save();
+        if ($order) {
+            return Response() -> Json(['message' => 'Todo ocurrió satisfactoriamente'], 200);
+        }
+        return Response() -> Json(['message' => 'Error al eliminar un pedido'], 400);
     }
 
     public function searchStatusOrder(Request $request){
         log::info("entro a searchStatusOrder");
-        log::info($request);
         $orders = Order::where('order_status_id', '=', $request->status_id)->get();
         return Response() -> Json([
             'data' => [
@@ -176,23 +180,21 @@ class OrdersController extends Controller
 
     public function aprobar($id){
         $status_code = 200;
-        $message = '';
-        log::info('1');
+        $message = 'Todo ocurrió satisfactoriamente';
         $statusOrder = Order_status::where('name', '=', 'Aprobado')->first();
-        log::info('2');
         $order = Order::find($id);
         if ($this->addNumerOnHold($order, "wait")) {
             $order -> order_status_id = $statusOrder -> id;
             $order -> save();
             if (!$order) {
-                $status_code = 404;
-                $message = 'problem with request';
+                $status_code = 400;
+                $message = 'Problemas con aprobar el pedido';
             } else {
                 $this->addHistoric($order->items, 'aprobado');
             }
         } else {
             $status_code = 404;
-            $message = 'problem with request (items)';
+            $message = 'Problemas con la cantidad de actículos';
         }
         log::info('aprobar');
         return Response() -> Json([
@@ -210,10 +212,10 @@ class OrdersController extends Controller
         $order -> save();
         $this->addNumerOnHold($order);
         $status_code = 200;
-        $message = '';
+        $message = 'Todo ocurrió satisfactoriamente';
         if (!$order) {
-            $status_code = 404;
-            $message = 'problem with request';
+            $status_code = 400;
+            $message = 'Problmas con entregar el pedido';
         } else {
             $this->addHistoric($order->items, 'entregado');
         }
@@ -236,10 +238,10 @@ class OrdersController extends Controller
         }
         
         $status_code = 200;
-        $message = '';
+        $message = 'Todo ocurrió satisfactoriamente';
         if (!$order) {
-            $status_code = 404;
-            $message = 'problem with request';
+            $status_code = 400;
+            $message = 'Problemas con cancelar el pedido';
         } else {
             if (!($status_order = "Pendiente")){
                 $this->addHistoric($order->items, 'cancelado');
@@ -259,10 +261,10 @@ class OrdersController extends Controller
         $order -> order_status_id = $statusOrder->id;
         $order -> save();
         $status_code = 200;
-        $message = '';
+        $message = 'Todo ocurrió satisfactoriamente';
         if (!$order) {
             $status_code = 404;
-            $message = 'problem with request';
+            $message = 'Problemas con rechazar el pedido';
         }
         return Response() -> Json([
                 'data' => [
@@ -278,10 +280,10 @@ class OrdersController extends Controller
         $order -> order_status_id = $statusOrder->id;
         $order -> save();
         $status_code = 200;
-        $message = '';
+        $message = 'Todo ocurrió satisfactoriamente';
         if (!$order) {
             $status_code = 404;
-            $message = 'problem with request';
+            $message = 'Problemas con conlocar pendiente el pedido';
         }
         return Response() -> Json([
                 'data' => [
@@ -292,21 +294,6 @@ class OrdersController extends Controller
 
     }
 
-    private function returnOrder($order){
-        log::info("returnOrder");
-        $status_code = 200;
-        $message = '';
-        if (!$order) {
-            $status_code = 404;
-            $message = 'problem with request';
-        }
-        return Response() -> Json([
-                'data' => [
-                    'order' => $this -> transform($order),
-                    'message' => $message,
-                ]
-            ], $status_code);
-    }
     private function transformCollection($orders) {
     	return array_map([$this, 'transform'], $orders -> toArray());
     }
@@ -327,20 +314,6 @@ class OrdersController extends Controller
             ]; 
         }
         return '';
-    }
-
-    private function transformCollectionItems($items) {
-    	return array_map([$this, 'transformItem'], $items -> toArray());
-    }
-
-    private function transformItem($item) {
-        #$one_item = Item::find($item['id']);
-    	return [
-            'id' => $item['id'],
-			#'event_name' => $one_item -> name,
-			#'price' => $one_item -> price,
-			#'number' => $one_item -> number,
-    	];
     }
 
     private function searchingIds($order, $type_search = '<') {
@@ -375,12 +348,12 @@ class OrdersController extends Controller
                     $one_item->number =  $one_item->number - $item['pivot']['number'];
                     $one_item->save();
                     if ($one_item->number <= $one_item->reorder){
-                        $data = $data . "Reorder  -  " . $one_item->name . "  -  " . $one_item->id . "  -  " . $one_item->number . "\n";
+                        $data = $data . "Reorder - Nombre del artículo:" . $one_item->name . "  - ID del artículo:" . $one_item->id . "  - Numero de artículos actuales:" . $one_item->number . "\n ";
                         log::info("INFORMACION PARA EL CORREO - reorder");
                         log::info($data);
                     } else {
                         if ($one_item->number <= $one_item->min_stock){
-                            $data = $data . "min_stock  -  " . $one_item->name . "  -  " . $one_item->id . "  -  " . $one_item->number . "\n";
+                            $data = $data . "min_stock:  - Nombre del artículo:" . $one_item->name . "  - ID del artículo:" . $one_item->id . "  - Numero de artículos actuales:" . $one_item->number . "\n ";
                             log::info("INFORMACION PARA EL CORREO - min_stock");
                             log::info($data);
                         } 
@@ -431,7 +404,7 @@ class OrdersController extends Controller
     private function sendEmail($body, $email){
         Log::info("send email");
         if ($body <> ""){
-            $users = User::whereIn('type', ['gerente','director', 'bodega'])->get();
+            $users = User::whereIn('type', ['asistente','director', 'bodega'])->get();
             Log::info($users);
             if ($users){
                 foreach ($users as $user) {

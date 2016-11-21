@@ -34,8 +34,8 @@ class SessionRequest extends Request
     public function messages()
     {
         return [
-            'email.required' => 'A title is required',
-            'password.required'  => 'A message is required',
+            'email.required' => 'El correo es un campo obligatorio',
+            'password.required'  => 'La contraseña es un campo obligatorio',
         ];
     }
 

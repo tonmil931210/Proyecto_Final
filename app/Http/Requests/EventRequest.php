@@ -64,6 +64,19 @@ class EventRequest extends Request
         }
     }
 
+    public function messages()
+    {
+        return [
+            'name.required' => 'El nombre es un campo obligatorio',
+            'start_date.required'  => 'La fecha de inicio es un campo obligatorio',
+            'finish_date.required' => 'La fecha de terminación es un campo obligatorio',
+            'start_time.required'  => 'La hora de inicio es un campo obligatorio',
+            'finish_time.required' => 'La hora de terminación es un campo obligatorio',
+            'location.required' => 'La localización es un campo obligatorio',
+            'place.required' => 'El Lugar es un campo obligatorio',
+        ];
+    }
+
     protected function formatErrors(Validator $validator)
     {
         return $validator->errors()->all();

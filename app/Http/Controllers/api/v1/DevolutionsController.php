@@ -33,18 +33,18 @@ class DevolutionsController extends Controller
 
     public function devolucion(DevolutionRequest $request, $id){
     	$status_code = 200;
-        $message = '';
+        $message = 'Todo ocurrió satisfactoriamente';
         $comment = '';
         log::info("entro a Devolution");
         $order_item = Order_item::where('item_id', '=', $request -> item_id)->where('order_id', '=', $id)->first();
         if ($order_item->number < $request->number) {
-        	$status_code = 404;
-            $message = 'problem with request';
+        	$status_code = 400;
+            $message = 'El valor que va a devolver es mayor al que presto';
         } else {
         	$order_item->number_return = $order_item->number_return + $request->number;
         	if ($order_item->number < $order_item->number_return) {
-        		$status_code = 404;
-            	$message = 'problem with request';
+        		$status_code = 400;
+            	$message = 'Está devolviendo un número de artículos de mas';
         	} else {
         		if ($request -> comment) {
 	               $comment = $request -> comment;
@@ -57,7 +57,6 @@ class DevolutionsController extends Controller
 	                    ]);
 	        	if ($order_item->number == $order_item->number_return) {
 	        		$order_item->state = "entregado";
-	        		$message = 'Exitoso';
 	        	}
 	        	$order_item->save();
                 log::info($request -> item_id);
@@ -76,45 +75,33 @@ class DevolutionsController extends Controller
     }
 
     public function devolucion_todo(Request $request, $id){
-        $status_code = 200;
-        $message = '';
-        $comment = '';
         log::info("entro a Devolution");
+        $status_code = 200;
+        $message = 'Ocurrio algun error';
+        $comment = '';
         $order = Order::find($id);
         $items = $order -> items;
         foreach ($items as $one_item){
             $order_item = Order_item::where('item_id', '=', $one_item->id)->where('order_id', '=', $id)->first();
             $number = ($order_item->number - $order_item->number_return);
             $order_item->number_return = $order_item->number_return + $number;
-            if ($order_item->number < $order_item->number_return) {
-                $status_code = 404;
-                $message = 'problem with request';
-            } else {
-                if ($request -> comment) {
-                   $comment = $request -> comment;
-                }
-                Devolution::create([                
-                            'item_id' => $one_item->id,
-                            'order_id' => $id,
-                            'number' => $number,
-                            'comment' => $comment,
-                        ]);
-                if ($order_item->number == $order_item->number_return) {
-                    $order_item->state = "entregado";
-                    $message = 'Exitoso';
-                }
-                $order_item->save();
-                $item = Item::find($one_item->id);
-                log::info("ITEMS");
-                log::info($item);
-                log::info("ORDER ITEM NUMBER");
-                log::info($order_item->number);
-                log::info("ORDER ITEM NUMBER RETURN");
-                log::info($order_item->number_return);
-                $item -> number = $item -> number + $number;
-                $item -> save();
-            }     
-            
+            if ($request -> comment) {
+               $comment = $request -> comment;
+            }
+            Devolution::create([                
+                        'item_id' => $one_item->id,
+                        'order_id' => $id,
+                        'number' => $number,
+                        'comment' => $comment,
+                    ]);
+            if ($order_item->number == $order_item->number_return) {
+                $order_item->state = "entregado";
+            }
+            $order_item->save();
+            $item = Item::find($one_item->id);
+            $item -> number = $item -> number + $number;
+            $item -> save();
+            $message = 'Todo ocurrió satisfactoriamente';   
         }
         return Response() -> Json([
                 'data' => [
