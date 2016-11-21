@@ -60,6 +60,9 @@ class DevolutionsController extends Controller
 	        		$message = 'Exitoso';
 	        	}
 	        	$order_item->save();
+                $item = Item::find($request -> item_id);
+                $item -> number = $item -> number + $request->number;
+                $item -> save();
         	}
         	
         }
@@ -98,8 +101,10 @@ class DevolutionsController extends Controller
                     $message = 'Exitoso';
                 }
                 $order_item->save();
-                }
-                
+                $item = Item::find($request -> item_id);
+                $item -> number = $item -> number + $request->number;
+                $item -> save();
+            }     
             
         }
         return Response() -> Json([

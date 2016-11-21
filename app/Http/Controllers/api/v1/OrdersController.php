@@ -372,14 +372,14 @@ class OrdersController extends Controller
                     $one_item->number_on_hold =  $one_item->number_on_hold - $item['pivot']['number'];
                     $one_item->number =  $one_item->number - $item['pivot']['number'];
                     $one_item->save();
-                    if ($one_item->number <= $one_item->min_stock){
-                        $data = $data . "min stock  -  " . $one_item->name . "  -  " . $one_item->id . "  -  " . $one_item->number . "\n";
-                        log::info("INFORMACION PARA EL CORREO - min stock");
+                    if ($one_item->number <= $one_item->reorder){
+                        $data = $data . "Reorder  -  " . $one_item->name . "  -  " . $one_item->id . "  -  " . $one_item->number . "\n";
+                        log::info("INFORMACION PARA EL CORREO - reorder");
                         log::info($data);
                     } else {
-                        if ($one_item->number <= $one_item->reorder){
-                            $data = $data . "reorder  -  " . $one_item->name . "  -  " . $one_item->id . "  -  " . $one_item->number . "\n";
-                            log::info("INFORMACION PARA EL CORREO - reorder");
+                        if ($one_item->number <= $one_item->min_stock){
+                            $data = $data . "min_stock  -  " . $one_item->name . "  -  " . $one_item->id . "  -  " . $one_item->number . "\n";
+                            log::info("INFORMACION PARA EL CORREO - min_stock");
                             log::info($data);
                         } 
                     }
