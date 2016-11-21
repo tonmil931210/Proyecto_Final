@@ -21,7 +21,7 @@ class EventsController extends Controller
 
     public function index() {
         log::info("entro a index event");
-        $events = Event::where('state', '=', 'no eliminado');
+        $events = Event::where('state', '=', 'no eliminado')->get();
         return Response() -> Json([
             'data' => [
                 'Events' => $this -> transformCollection($events)

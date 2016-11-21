@@ -21,7 +21,7 @@ class ItemsController extends Controller
 
     public function index() {
         log::info("entro a index item");
-        $items = Item::where('state', '=', 'no eliminado');
+        $items = Item::where('state', '=', 'no eliminado')->get();
         log::info($items);
         return Response() -> Json([
             'data' => [

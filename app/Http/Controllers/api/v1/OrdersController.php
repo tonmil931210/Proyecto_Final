@@ -29,7 +29,7 @@ class OrdersController extends Controller
 
     public function index() {
         log::info("entro a index order");
-        $orders = Order::where('state', '=', 'no eliminado');
+        $orders = Order::where('state', '=', 'no eliminado')->get();
         return Response() -> Json([
             'data' => [
                 'orders' => $this -> transformCollection($orders)
