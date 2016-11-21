@@ -101,7 +101,9 @@ class DevolutionsController extends Controller
                     $message = 'Exitoso';
                 }
                 $order_item->save();
-                $item = Item::find($request -> item_id);
+                log::info($request -> item_id);
+                $item = Item::find($one_item->id);
+                log::info($item);
                 $item -> number = $item -> number + $request->number;
                 $item -> save();
             }     
